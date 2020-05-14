@@ -18,14 +18,14 @@ public class BookController {
 
     private final BookDbService dbService;
 
-    @GetMapping("/api/books")
+    @GetMapping("/books")
     public List<BookDto> getAllBooks() {
         return dbService.getAllBooks().stream()
                 .map(BookDto::toDto)
                 .collect(toList());
     }
 
-    @GetMapping("/api/books/{id}")
+    @GetMapping("/books/{id}")
     public BookDto getBookById(@PathVariable("id") long id) {
         return dbService.getById(id)
                 .map(BookDto::toDto)
