@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.sql.Clob;
 
 @Data
 @Entity
@@ -31,12 +30,12 @@ public class Book {
     @Column(name = "description", columnDefinition = "CLOB", nullable = false)
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @Column(name = "image", nullable = false)
-    private String image;
+    @Column(name = "image_path", nullable = false)
+    private String imagePath;
 
     @Column(name = "price", nullable = false)
     private double price;

@@ -19,7 +19,7 @@ public class BookController {
     private final BookDbService dbService;
 
     @GetMapping("/books")
-    public List<BookDto> getAllBooks() {
+    public List<BookDto> getBooks() {
         return dbService.getAllBooks().stream()
                 .map(BookDto::toDto)
                 .collect(toList());

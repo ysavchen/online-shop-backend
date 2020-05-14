@@ -1,8 +1,5 @@
-insert into genres(id, name) values (1, 'Computers & Technology');
+insert into authors(id, full_name) values (1, 'Author One');
+insert into authors(id, full_name) values (2, 'Author Two');
 
-insert into authors(id, name, surname) values (1, 'Philip', 'Pratt');
-insert into authors(id, name, surname) values (2, 'Michael', 'Learn');
-
-insert into books (id, title, author_id, genre_id) values (1, 'A Guide to SQL', 1, 1);
-insert into books (id, title, author_id, genre_id) values (2, 'Concepts of Database Management', 1, 1);
-insert into books (id, title, author_id, genre_id) values (3, 'SQL Programming and Coding', 2, 1);
+insert into books (id, title, description, author_id, image_path, price) values (1, 'Book One', 'Description One', 1, '/imageOne', 22.95);
+insert into books (id, title, description, author_id, image_path, price) values (2, 'Book Two', 'Description Two', 2, '/imageTwo', 46.00);

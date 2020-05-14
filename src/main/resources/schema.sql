@@ -4,7 +4,7 @@ create table books (
     title varchar(255) not null,
     description clob,
     author_id bigint,
-    image varchar(255),
+    image_path varchar(255),
     price double not null
 );
 
