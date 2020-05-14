@@ -1,6 +1,8 @@
 package com.mycompany.online_shop_demo_backend.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "authors")
 @Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
 
     @Id
@@ -18,15 +22,4 @@ public class Author {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    public Author() {
-    }
-
-    public Author(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public Author(long id, String fullName) {
-        this.id = id;
-        this.fullName = fullName;
-    }
 }
