@@ -16,14 +16,14 @@ public class BookDto {
     private String title;
     private String description;
     private String author;
-    private String imagePath;
+    private String image;
     private double price;
 
     public static BookDto toDto(Book book) {
         return new BookDto(
                 book.getId(), book.getTitle(), book.getDescription(),
                 book.getAuthor().getFullName(),
-                book.getImagePath(), book.getPrice()
+                book.getImage(), book.getPrice()
         );
     }
 }

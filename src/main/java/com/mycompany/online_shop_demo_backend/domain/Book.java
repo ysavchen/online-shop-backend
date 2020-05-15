@@ -34,8 +34,8 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @Column(name = "image_path", nullable = false)
-    private String imagePath;
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @Column(name = "price", nullable = false)
     private double price;

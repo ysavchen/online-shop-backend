@@ -31,7 +31,7 @@ public class BookRepositoryImplTests {
                 .hasFieldOrPropertyWithValue("title", bookOne.getTitle())
                 .hasFieldOrPropertyWithValue("description", bookOne.getDescription())
                 .hasFieldOrPropertyWithValue("author", bookOne.getAuthor())
-                .hasFieldOrPropertyWithValue("imagePath", bookOne.getImagePath())
+                .hasFieldOrPropertyWithValue("image", bookOne.getImage())
                 .hasFieldOrPropertyWithValue("price", bookOne.getPrice());
     }
 
