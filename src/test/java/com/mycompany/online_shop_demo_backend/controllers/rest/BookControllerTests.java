@@ -48,7 +48,7 @@ public class BookControllerTests {
     @Test
     public void getBooks() throws Exception {
         when(dbService.getAllBooks()).thenReturn(books);
-        mockMvc.perform(get("/books"))
+        mockMvc.perform(get("/api/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookDtos)));
     }
@@ -56,7 +56,7 @@ public class BookControllerTests {
     @Test
     public void getBookById() throws Exception {
         when(dbService.getById(bookOne.getId())).thenReturn(Optional.of(bookOne));
-        mockMvc.perform(get("/books/{id}", bookOneDto.getId()))
+        mockMvc.perform(get("/api/books/{id}", bookOneDto.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookOneDto)));
     }
