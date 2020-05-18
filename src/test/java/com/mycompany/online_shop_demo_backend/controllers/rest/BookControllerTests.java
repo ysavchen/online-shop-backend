@@ -36,6 +36,7 @@ public class BookControllerTests {
     private final BookDto bookOneDto = BookDto.toDto(bookOne);
     private final BookDto bookTwoDto = BookDto.toDto(bookTwo);
     private final List<BookDto> bookDtos = List.of(bookOneDto, bookTwoDto);
+    private static final long NON_EXISTING_ID = 50;
 
     private final Gson gson = new Gson();
 
@@ -59,5 +60,12 @@ public class BookControllerTests {
         mockMvc.perform(get("/api/books/{id}", bookOneDto.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookOneDto)));
+    }
+
+    @Test
+    public void getBookByIdNegative() throws Exception {
+        when(dbService.getById(NON_EXISTING_ID)).thenReturn(Optional.empty());
+        mockMvc.perform(get("/api/books/{id}", NON_EXISTING_ID))
+                .andExpect(status().isBadRequest());
     }
 }
