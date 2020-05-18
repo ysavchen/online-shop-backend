@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(annotations = RestController.class)
+@RestControllerAdvice
 public class BookControllerAdvice {
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
