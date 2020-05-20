@@ -1,16 +1,11 @@
 package com.mycompany.online_shop_demo_backend.service;
 
 import com.mycompany.online_shop_demo_backend.domain.Order;
-import com.mycompany.online_shop_demo_backend.domain.OrderToBooks;
 import com.mycompany.online_shop_demo_backend.repositories.OrderRepository;
 import com.mycompany.online_shop_demo_backend.repositories.OrderToBooksRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
 
 @Service
 @Transactional
@@ -23,6 +18,7 @@ public class OrderDbServiceImpl implements OrderDbService {
     @Override
     public Order save(Order order) {
         Order savedOrder = orderRepository.save(order);
+        //todo: savedOrder.id is not added to saveOrderToBooks
         order.getOrderToBooks().forEach(orderToBooksRepository::saveOrderToBooks);
         return savedOrder;
     }
