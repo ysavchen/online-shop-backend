@@ -1,5 +1,6 @@
 package com.mycompany.online_shop_demo_backend.dto;
 
+import com.mycompany.online_shop_demo_backend.domain.Author;
 import com.mycompany.online_shop_demo_backend.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,16 @@ public class BookDto {
                 book.getId(), book.getTitle(), book.getDescription(),
                 book.getAuthor().getFullName(),
                 book.getImage(), book.getPrice()
+        );
+    }
+
+    public static Book toDomainObject(BookDto dto) {
+        return new Book(
+                dto.id, dto.title,
+                dto.description,
+                new Author(0, dto.author),
+                dto.image,
+                dto.price
         );
     }
 }

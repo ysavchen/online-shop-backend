@@ -9,15 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ControllerAdvice {
 
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     ApiError entityNotFoundException(EntityNotFoundException ex) {
         return new ApiError(HttpStatus.NOT_FOUND, ex.getMessage());
-    }
-
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    ApiError exception(Exception ex) {
-        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 }

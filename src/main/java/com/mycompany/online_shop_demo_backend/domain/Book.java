@@ -34,7 +34,7 @@ public class Book {
     @JoinColumn(name = "author_id")
     private Author author;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String image;
 
     @Column(name = "price", nullable = false)
