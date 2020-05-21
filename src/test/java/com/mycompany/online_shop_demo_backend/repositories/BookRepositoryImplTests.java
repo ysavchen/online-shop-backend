@@ -14,12 +14,8 @@ public class BookRepositoryImplTests {
     private final Author authorOne = new Author(1, "Author One");
     private final Author authorTwo = new Author(2, "Author Two");
 
-    private final Book bookOne = new Book(
-            1, "Book One", "Description One",
-            authorOne, "/imageOne", 22.95);
-    private final Book bookTwo = new Book(
-            2, "Book Two", "Description Two",
-            authorTwo, "/imageTwo", 46.00);
+    private final Book bookOne = new Book(1, "Book One", "Description One", authorOne, "/imageOne", 22.95);
+    private final Book bookTwo = new Book(2, "Book Two", "Description Two", authorTwo, "/imageTwo", 46.00);
 
     @Autowired
     private BookRepository bookRepository;
