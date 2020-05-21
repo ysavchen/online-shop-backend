@@ -1,15 +1,16 @@
 package com.mycompany.online_shop_demo_backend.controllers.rest;
 
 import com.mycompany.online_shop_demo_backend.domain.Order;
-import com.mycompany.online_shop_demo_backend.dto.OrderDto;
-import com.mycompany.online_shop_demo_backend.service.OrderDbService;
+import com.mycompany.online_shop_demo_backend.dto.request.OrderRequest;
+import com.mycompany.online_shop_demo_backend.dto.request.UserOrdersRequest;
+import com.mycompany.online_shop_demo_backend.dto.response.OrderResponse;
+import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +22,14 @@ public class OrderController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto createOrder(@RequestBody OrderDto orderDto) {
-        Order order = OrderDto.toDomainObject(orderDto);
-        return OrderDto.toDto(dbService.save(order));
+    public OrderResponse createOrder(@RequestBody OrderRequest request) {
+        Order order = OrderRequest.toDomainObject(request);
+        return OrderResponse.toDto(dbService.save(order));
+    }
+
+    @GetMapping(path = "/api/users/{id}/orders",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Order> getUserOrders(@RequestBody UserOrdersRequest request) {
+        return null;
     }
 }

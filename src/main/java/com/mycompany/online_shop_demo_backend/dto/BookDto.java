@@ -5,7 +5,6 @@ import com.mycompany.online_shop_demo_backend.domain.Book;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 @Data
 @NoArgsConstructor

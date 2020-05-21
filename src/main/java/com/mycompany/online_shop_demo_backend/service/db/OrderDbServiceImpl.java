@@ -1,11 +1,9 @@
-package com.mycompany.online_shop_demo_backend.service;
+package com.mycompany.online_shop_demo_backend.service.db;
 
 import com.mycompany.online_shop_demo_backend.domain.Order;
-import com.mycompany.online_shop_demo_backend.domain.OrderToBook;
 import com.mycompany.online_shop_demo_backend.repositories.OrderRepository;
 import com.mycompany.online_shop_demo_backend.repositories.OrderToBooksRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

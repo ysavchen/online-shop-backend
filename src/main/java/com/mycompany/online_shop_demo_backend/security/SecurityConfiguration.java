@@ -1,22 +1,33 @@
 package com.mycompany.online_shop_demo_backend.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/");
-    }
+    private final JwtFilter jwtFilter;
+    private final UserDetailsService userDetailsService;
+
+    private final String[] publicResources = new String[]{
+            "/",
+            "/api/books",
+            "/api/books/{id}",
+            "/api/orders",
+            "/api/register",
+            "/api/login"
+    };
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -24,36 +35,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/books", "/books/{id}")
-                .permitAll()
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/authenticated")
-//                .authenticated()
+                .antMatchers(publicResources).permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
-                .formLogin()
-                .and()
-                .anonymous();
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence charSequence) {
-                return charSequence.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence charSequence, String s) {
-                return charSequence.toString().equals(s);
-            }
-        };
+        return new BCryptPasswordEncoder();
     }
 
-    @Autowired
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManagerBean();
+
+    }
+
+    @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password("password").roles("ADMIN");
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 }

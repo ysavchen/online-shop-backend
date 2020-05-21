@@ -53,7 +53,8 @@ create table users (
     id bigint primary key auto_increment,
     first_name varchar(255) not null,
     last_name varchar(255) not null,
-    email_id bigint not null
+    email_id bigint not null,
+    password varchar(255) not null
 );
 
 alter table books

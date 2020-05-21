@@ -2,7 +2,7 @@ package com.mycompany.online_shop_demo_backend.controllers.rest;
 
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
-import com.mycompany.online_shop_demo_backend.service.BookDbService;
+import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

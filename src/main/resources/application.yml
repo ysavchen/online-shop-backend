@@ -1,3 +1,7 @@
+application:
+  jwtSecret: JWT_SECRET
+  jwtValidity: 86400000
+
 server:
   port: 8090
 
