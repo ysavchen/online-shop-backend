@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "addresses")
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {

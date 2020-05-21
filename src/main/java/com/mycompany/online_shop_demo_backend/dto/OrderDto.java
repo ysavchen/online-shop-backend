@@ -14,7 +14,6 @@ import static java.util.stream.Collectors.toSet;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 public class OrderDto {
 
     private long id;

@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "order_to_books")
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderToBooks {

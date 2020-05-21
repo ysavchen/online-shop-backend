@@ -10,7 +10,6 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "orders")
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {

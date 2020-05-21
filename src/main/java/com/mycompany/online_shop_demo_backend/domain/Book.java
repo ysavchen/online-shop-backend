@@ -14,7 +14,6 @@ import javax.persistence.*;
         attributeNodes = {
                 @NamedAttributeNode("author"),
         })
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {

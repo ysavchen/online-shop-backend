@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "emails")
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Email {
