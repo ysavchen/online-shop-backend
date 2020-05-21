@@ -48,6 +48,7 @@ public class JwtFilter extends GenericFilterBean {
         if (bearerToken != null && bearerToken.startsWith(BEARER)) {
             return bearerToken.substring(BEARER.length());
         }
+        //todo: throw an exception
         return null;
     }
 

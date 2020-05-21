@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    //todo: rename User to Customer
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
