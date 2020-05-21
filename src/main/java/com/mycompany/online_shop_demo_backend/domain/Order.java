@@ -1,10 +1,10 @@
 package com.mycompany.online_shop_demo_backend.domain;
 
 import lombok.*;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Data
@@ -36,7 +36,23 @@ public class Order {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private Set<OrderToBooks> orderToBooks = new HashSet<>();
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    private Set<OrderToBook> orderToBooks = new HashSet<>();
 
+    public void addBook(Book book) {
+        OrderToBook orderToBook = new OrderToBook(this, book);
+        orderToBooks.add(orderToBook);
+    }
+
+    public void removeBook(Book book) {
+        for (Iterator<OrderToBook> iterator = orderToBooks.iterator();
+             iterator.hasNext(); ) {
+            OrderToBook orderToBook = iterator.next();
+            if (orderToBook.getOrder().equals(this) && orderToBook.getBook().equals(book)) {
+                iterator.remove();
+                orderToBook.setOrder(null);
+                orderToBook.setBook(null);
+            }
+        }
+    }
 }

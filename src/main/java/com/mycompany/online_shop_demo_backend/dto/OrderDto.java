@@ -4,12 +4,10 @@ import com.mycompany.online_shop_demo_backend.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 @Data
 @NoArgsConstructor
@@ -31,7 +29,7 @@ public class OrderDto {
                         order.getEmail().getValue()
                 ),
                 order.getOrderToBooks().stream()
-                        .map(OrderToBooks::getBook)
+                        .map(OrderToBook::getBook)
                         .map(BookDto::toDto)
                         .collect(toList())
         );
@@ -45,11 +43,9 @@ public class OrderDto {
                 .setPhone(new Phone(0, dto.delivery.getPhone()))
                 .setEmail(new Email(0, dto.delivery.getEmail()));
 
-        order.setOrderToBooks(dto.books.stream()
+        dto.books.stream()
                 .map(BookDto::toDomainObject)
-                .map(book -> new OrderToBooks(0, order, book))
-                .collect(toSet())
-        );
+                .forEach(order::addBook);
 
         return order;
     }

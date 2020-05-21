@@ -44,7 +44,6 @@ create table emails (
 
 drop table if exists order_to_books;
 create table order_to_books (
-    id bigint primary key auto_increment,
     order_id bigint not null,
     book_id bigint not null
 );
