@@ -1,5 +1,6 @@
 package com.mycompany.online_shop_demo_backend.security;
 
+import com.mycompany.online_shop_demo_backend.exceptions.NotAuthorizedException;
 import com.mycompany.online_shop_demo_backend.exceptions.WebException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +49,8 @@ public class JwtFilter extends GenericFilterBean {
         if (bearerToken != null && bearerToken.startsWith(BEARER)) {
             return bearerToken.substring(BEARER.length());
         }
-        //todo: throw an exception
-        return null;
+        logger.error("Invalid jwt Bearer");
+        throw new NotAuthorizedException("Authorization header is missing");
     }
 
     public Authentication getAuthentication(String token) {

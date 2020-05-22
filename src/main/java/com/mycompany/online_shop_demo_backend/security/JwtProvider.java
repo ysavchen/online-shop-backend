@@ -1,7 +1,9 @@
 package com.mycompany.online_shop_demo_backend.security;
 
-import com.mycompany.online_shop_demo_backend.exceptions.WebException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,25 +35,17 @@ public class JwtProvider {
     }
 
     public boolean validateToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(jwtSecret)
-                    .parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (JwtException | IllegalArgumentException e) {
-            throw new WebException("Invalid token");
-        }
+        Jws<Claims> claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token);
+        return !claims.getBody().getExpiration().before(new Date());
     }
 
     public String getUsernameFromToken(String token) {
-        try {
-            return Jwts.parser()
-                    .setSigningKey(jwtSecret)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-        } catch (JwtException ex) {
-            throw new WebException("Invalid token");
-        }
+        return Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 }
