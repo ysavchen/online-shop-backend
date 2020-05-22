@@ -9,9 +9,5 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query(value = "select order.* " +
-            "from orders order " +
-            "join users user on order.email = user.email " +
-            "where user.id = :id", nativeQuery = true)
-    List<Order> getOrdersByUserId(@Param("id") long id);
+    List<Order> findByEmail(String email);
 }
