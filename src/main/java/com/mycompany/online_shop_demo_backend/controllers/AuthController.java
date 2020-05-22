@@ -3,8 +3,7 @@ package com.mycompany.online_shop_demo_backend.controllers;
 import com.mycompany.online_shop_demo_backend.domain.User;
 import com.mycompany.online_shop_demo_backend.dto.request.LoginRequest;
 import com.mycompany.online_shop_demo_backend.dto.request.RegisterRequest;
-import com.mycompany.online_shop_demo_backend.dto.response.LoginResponse;
-import com.mycompany.online_shop_demo_backend.dto.response.RegisterResponse;
+import com.mycompany.online_shop_demo_backend.dto.response.AuthResponse;
 import com.mycompany.online_shop_demo_backend.dto.response.UserResponse;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
@@ -32,7 +31,7 @@ public class AuthController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public RegisterResponse register(@RequestBody RegisterRequest request) {
+    public AuthResponse register(@RequestBody RegisterRequest request) {
         logger.info("Register user with email {}", request.getEmail());
         User user = RegisterRequest.toDomainUser(request);
 
@@ -40,14 +39,14 @@ public class AuthController {
         UserResponse userResponse = UserResponse.toDto(dbService.save(user));
         String token = securityService.generateToken(userResponse.getEmail());
 
-        return new RegisterResponse(token, userResponse);
+        return new AuthResponse(token, userResponse);
     }
 
     @ApiOperation("Logs in a user")
     @PostMapping(path = "/api/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public LoginResponse login(@RequestBody LoginRequest request) {
+    public AuthResponse login(@RequestBody LoginRequest request) {
         logger.info("Login with email {}", request.getEmail());
         securityService.authenticate(request.getEmail(), request.getPassword());
 
@@ -56,6 +55,6 @@ public class AuthController {
                 .orElseThrow(() -> new EntityNotFoundException("User with email = " + request.getEmail() + " is not found"));
         String token = securityService.generateToken(userResponse.getEmail());
 
-        return new LoginResponse(token, userResponse);
+        return new AuthResponse(token, userResponse);
     }
 }
