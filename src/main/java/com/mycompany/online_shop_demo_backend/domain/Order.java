@@ -30,9 +30,8 @@ public class Order {
     @JoinColumn(name = "phone_id")
     private Phone phone;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "email_id")
-    private Email email;
+    @Column(name = "email")
+    private String email;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

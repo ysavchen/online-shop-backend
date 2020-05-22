@@ -20,7 +20,7 @@ create table orders (
     addressee_name varchar(255) not null,
     address_id bigint,
     phone_id bigint,
-    email_id bigint
+    email varchar(255)
 );
 
 drop table if exists addresses;
@@ -36,12 +36,6 @@ create table phones (
     phone varchar(255) not null
 );
 
-drop table if exists emails;
-create table emails (
-    id bigint primary key auto_increment,
-    email varchar(255) not null
-);
-
 drop table if exists order_to_books;
 create table order_to_books (
     order_id bigint not null,
@@ -53,7 +47,7 @@ create table users (
     id bigint primary key auto_increment,
     first_name varchar(255) not null,
     last_name varchar(255) not null,
-    email_id bigint not null,
+    email varchar(255) not null,
     password varchar(255) not null
 );
 
@@ -65,9 +59,3 @@ add foreign key (address_id) references addresses(id) on delete cascade;
 
 alter table orders
 add foreign key (phone_id) references phones(id) on delete cascade;
-
-alter table orders
-add foreign key (email_id) references emails(id) on delete cascade;
-
-alter table users
-add foreign key (email_id) references emails(id) on delete cascade;

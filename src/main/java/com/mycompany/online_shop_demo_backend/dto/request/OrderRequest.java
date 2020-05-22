@@ -1,7 +1,6 @@
 package com.mycompany.online_shop_demo_backend.dto.request;
 
 import com.mycompany.online_shop_demo_backend.domain.Address;
-import com.mycompany.online_shop_demo_backend.domain.Email;
 import com.mycompany.online_shop_demo_backend.domain.Order;
 import com.mycompany.online_shop_demo_backend.domain.Phone;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
@@ -27,7 +26,7 @@ public class OrderRequest {
                 .setAddresseeName(dto.delivery.getName())
                 .setAddress(new Address(0, dto.delivery.getAddress(), dto.delivery.getZipcode()))
                 .setPhone(new Phone(0, dto.delivery.getPhone()))
-                .setEmail(new Email(0, dto.delivery.getEmail()));
+                .setEmail(dto.delivery.getEmail());
 
         dto.books.stream()
                 .map(BookDto::toDomainObject)

@@ -20,7 +20,7 @@ public class UserResponse {
                 user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getEmail().getValue()
+                user.getEmail()
         );
     }
 }
