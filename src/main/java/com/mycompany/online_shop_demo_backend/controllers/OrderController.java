@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_demo_backend.controllers.rest;
+package com.mycompany.online_shop_demo_backend.controllers;
 
 import com.mycompany.online_shop_demo_backend.domain.Order;
 import com.mycompany.online_shop_demo_backend.dto.request.OrderRequest;
@@ -31,7 +31,6 @@ public class OrderController {
         return OrderResponse.toDto(orderDbService.save(order));
     }
 
-    //    @PreAuthorize("hasRole('ROLE_USER')")
     @ApiOperation("Gets orders for an authenticated user")
     @GetMapping(path = "/api/users/{id}/orders",
             produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_demo_backend.controllers.rest;
+package com.mycompany.online_shop_demo_backend.controllers.handler;
 
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_demo_backend.exceptions.NotAuthorizedException;
@@ -12,13 +12,13 @@ public class ControllerAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
-    ApiError entityNotFoundException(EntityNotFoundException ex) {
-        return new ApiError(HttpStatus.NOT_FOUND, ex.getMessage());
+    ResponseError entityNotFoundException(EntityNotFoundException ex) {
+        return new ResponseError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NotAuthorizedException.class)
-    ApiError notAuthorizedException(NotAuthorizedException ex) {
-        return new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
+    ResponseError notAuthorizedException(NotAuthorizedException ex) {
+        return new ResponseError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
     }
 }

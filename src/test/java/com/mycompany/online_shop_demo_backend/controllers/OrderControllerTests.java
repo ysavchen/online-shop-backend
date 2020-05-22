@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_demo_backend.controllers.rest;
+package com.mycompany.online_shop_demo_backend.controllers;
 
 import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
 import org.junit.jupiter.api.Test;
