@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -20,5 +22,9 @@ public class OrderDbServiceImpl implements OrderDbService {
         Order savedOrder = orderRepository.save(order);
         order.getOrderToBooks().forEach(orderToBooksRepository::saveOrderToBooks);
         return savedOrder;
+    }
+
+    public List<Order> getOrdersByUserId(long id) {
+        return orderRepository.getOrdersByUserId(id);
     }
 }
