@@ -4,21 +4,22 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
 public class JwtProvider {
 
-    @Value("${application.jwtSecret}")
-    private String jwtSecret;
+    private final String jwtSecret;
+    private final long jwtValidity;
 
-    @Value("${application.jwtValidity}")
-    private long jwtValidity;
+    public JwtProvider(@Value("${application.jwtSecret}") String jwtSecret,
+                       @Value("${application.jwtValidity}") long jwtValidity) {
+        this.jwtSecret = jwtSecret;
+        this.jwtValidity = jwtValidity;
+    }
 
     public String generateToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
