@@ -26,8 +26,7 @@ create table orders (
 drop table if exists addresses;
 create table addresses (
     id bigint primary key auto_increment,
-    address varchar(255) not null,
-    zip_code varchar(255)
+    address varchar(255) not null
 );
 
 drop table if exists phones;

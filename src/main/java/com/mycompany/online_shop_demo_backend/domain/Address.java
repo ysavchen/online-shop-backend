@@ -21,7 +21,4 @@ public class Address {
     @Column(name = "address", nullable = false)
     private String value;
 
-    @Column(name = "zip_code")
-    private String zipCode;
-
 }
