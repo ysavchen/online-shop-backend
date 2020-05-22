@@ -35,7 +35,7 @@ public class JwtFilter extends GenericFilterBean {
         if (!(request instanceof HttpServletRequest)) {
             throw new NotAuthorizedException("Non supported request");
         }
-        String token = resolveToken((HttpServletRequest) request);
+        String token = detachToken((HttpServletRequest) request);
         if (token != null && jwtProvider.validateToken(token)) {
             Authentication auth = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
@@ -43,16 +43,15 @@ public class JwtFilter extends GenericFilterBean {
         chain.doFilter(request, response);
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    private String detachToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (bearerToken != null && bearerToken.startsWith(BEARER)) {
             return bearerToken.substring(BEARER.length());
         }
-        logger.error("Invalid jwt Bearer");
-        throw new NotAuthorizedException("Authorization header is missing");
+        return null;
     }
 
-    public Authentication getAuthentication(String token) {
+    private Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtProvider.getUsernameFromToken(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
