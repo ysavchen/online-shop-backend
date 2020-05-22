@@ -1,7 +1,6 @@
 package com.mycompany.online_shop_demo_backend.security;
 
 import com.mycompany.online_shop_demo_backend.exceptions.NotAuthorizedException;
-import com.mycompany.online_shop_demo_backend.exceptions.WebException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +33,7 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         logger.debug("Entering token filter");
         if (!(request instanceof HttpServletRequest)) {
-            throw new WebException("web.request.unsupported");
+            throw new NotAuthorizedException("Non supported request");
         }
         String token = resolveToken((HttpServletRequest) request);
         if (token != null && jwtProvider.validateToken(token)) {
