@@ -26,6 +26,11 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
+    public long getTokenExpirationInMillis() {
+        return jwtProvider.getJwtValidity();
+    }
+
+    @Override
     public String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }

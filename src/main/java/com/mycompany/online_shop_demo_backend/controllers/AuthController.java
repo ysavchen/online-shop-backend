@@ -38,8 +38,9 @@ public class AuthController {
         user.setPassword(securityService.encodePassword(user.getPassword()));
         UserResponse userResponse = UserResponse.toDto(dbService.save(user));
         String token = securityService.generateToken(userResponse.getEmail());
+        long tokenExpiration = securityService.getTokenExpirationInMillis();
 
-        return new AuthResponse(token, userResponse);
+        return new AuthResponse(token, tokenExpiration, userResponse);
     }
 
     @ApiOperation("Logs in a user")
@@ -54,7 +55,8 @@ public class AuthController {
                 .map(UserResponse::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with email = " + request.getEmail() + " is not found"));
         String token = securityService.generateToken(userResponse.getEmail());
+        long tokenExpiration = securityService.getTokenExpirationInMillis();
 
-        return new AuthResponse(token, userResponse);
+        return new AuthResponse(token, tokenExpiration, userResponse);
     }
 }

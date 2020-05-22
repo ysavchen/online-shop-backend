@@ -33,6 +33,10 @@ public class JwtProvider {
                 .compact();
     }
 
+    public long getJwtValidity() {
+        return jwtValidity;
+    }
+
     public boolean validateToken(String token) {
         Jws<Claims> claims = Jwts.parser()
                 .setSigningKey(jwtSecret)

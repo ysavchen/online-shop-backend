@@ -8,6 +8,8 @@ public interface SecurityService {
 
     String generateToken(String email);
 
+    long getTokenExpirationInMillis();
+
     String encodePassword(String password);
 
 }

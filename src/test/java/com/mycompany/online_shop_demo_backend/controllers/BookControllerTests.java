@@ -42,6 +42,7 @@ public class BookControllerTests {
 
     @Configuration
     static class TestConfiguration {
+
         @Bean
         public JwtProvider jwtProvider() {
             return new JwtProvider("test-secret", 6000);
@@ -55,7 +56,7 @@ public class BookControllerTests {
     private BookDbService dbService;
 
     //todo: add some users to test-db
-    @WithMockUser(username = "user@test.com", password = "test", roles = "USER")
+    @WithMockUser(username = "john.doe@test.com")
     @Test
     public void getBooks() throws Exception {
         when(dbService.getAllBooks()).thenReturn(books);
