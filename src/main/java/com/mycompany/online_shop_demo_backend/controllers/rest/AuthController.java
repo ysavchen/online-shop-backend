@@ -9,6 +9,7 @@ import com.mycompany.online_shop_demo_backend.dto.response.UserResponse;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class AuthController {
     private final UserDbService dbService;
     private final SecurityService securityService;
 
+    @ApiOperation("Registers a user")
     @PostMapping(path = "/api/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -41,6 +43,7 @@ public class AuthController {
         return new RegisterResponse(token, userResponse);
     }
 
+    @ApiOperation("Logs in a user")
     @PostMapping(path = "/api/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)

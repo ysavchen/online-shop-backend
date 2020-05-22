@@ -3,6 +3,7 @@ package com.mycompany.online_shop_demo_backend.controllers.rest;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ public class BookController {
 
     private final BookDbService dbService;
 
+    @ApiOperation("Gets all books")
     @GetMapping(path = "/api/books",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BookDto> getBooks() {
@@ -27,6 +29,7 @@ public class BookController {
                 .collect(toList());
     }
 
+    @ApiOperation("Gets a book with id")
     @GetMapping(path = "/api/books/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public BookDto getBookById(@PathVariable("id") long id) {

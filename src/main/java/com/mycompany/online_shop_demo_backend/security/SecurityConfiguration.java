@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,13 +17,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter jwtFilter;
     private final UserDetailsService userDetailsService;
 
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/",
+                //swagger
+                "/webjars/**", "/v2/api-docs/**", "/configuration/ui/**", "/swagger-resources/**",
+                "/configuration/security/**", "/swagger-ui.html/**", "/swagger-ui.html#/**");
+    }
+
     private final String[] publicResources = new String[]{
-            "/",
             "/api/books",
             "/api/books/{id}",
             "/api/orders",
