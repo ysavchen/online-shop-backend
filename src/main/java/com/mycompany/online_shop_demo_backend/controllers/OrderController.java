@@ -21,8 +21,6 @@ import static java.util.stream.Collectors.toList;
 public class OrderController {
 
     private final OrderDbService orderDbService;
-    private final UserDbService userDbService;
-    private final SecurityService securityService;
 
     @ApiOperation("Creates an order")
     @PostMapping(path = "/api/orders",
