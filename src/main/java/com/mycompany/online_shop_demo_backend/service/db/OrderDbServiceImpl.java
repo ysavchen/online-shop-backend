@@ -28,6 +28,8 @@ public class OrderDbServiceImpl implements OrderDbService {
         return savedOrder;
     }
 
+    @Transactional(readOnly = true)
+    @Override
     public List<Order> getOrdersByUserId(long id) {
         System.out.println("DB request!!!");
         User user = userRepository.findById(id)

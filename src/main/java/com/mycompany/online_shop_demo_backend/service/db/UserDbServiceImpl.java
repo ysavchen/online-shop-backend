@@ -20,6 +20,7 @@ public class UserDbServiceImpl implements UserDbService {
         return userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
