@@ -1,8 +1,6 @@
 package com.mycompany.online_shop_demo_backend.service.db;
 
 import com.mycompany.online_shop_demo_backend.domain.Order;
-import com.mycompany.online_shop_demo_backend.domain.User;
-import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_demo_backend.repositories.OrderRepository;
 import com.mycompany.online_shop_demo_backend.repositories.OrderToBooksRepository;
 import com.mycompany.online_shop_demo_backend.repositories.UserRepository;
@@ -30,10 +28,7 @@ public class OrderDbServiceImpl implements OrderDbService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Order> getOrdersByUserId(long id) {
-        System.out.println("DB request!!!");
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User (id = " + id + ") is not found"));
-        return orderRepository.findByEmail(user.getEmail());
+    public List<Order> getOrdersByEmail(String email) {
+        return orderRepository.findByEmail(email);
     }
 }

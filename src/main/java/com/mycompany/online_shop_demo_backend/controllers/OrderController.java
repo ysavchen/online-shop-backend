@@ -4,7 +4,6 @@ import com.mycompany.online_shop_demo_backend.domain.Order;
 import com.mycompany.online_shop_demo_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.OrderResponse;
 import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
-import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 public class OrderController {
 
     private final OrderDbService orderDbService;
+    private final SecurityService securityService;
 
     @ApiOperation("Creates an order")
     @PostMapping(path = "/api/orders",
@@ -35,8 +36,9 @@ public class OrderController {
     @ApiOperation("Gets orders for an authenticated user")
     @GetMapping(path = "/api/users/{id}/orders",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<OrderResponse> getUserOrders(@PathVariable("id") long id) {
-        return orderDbService.getOrdersByUserId(id)
+    public List<OrderResponse> getUserOrders(HttpServletRequest request) {
+        String email = securityService.getUsernameFromRequest(request);
+        return orderDbService.getOrdersByEmail(email)
                 .stream()
                 .map(OrderResponse::toDto)
                 .collect(toList());

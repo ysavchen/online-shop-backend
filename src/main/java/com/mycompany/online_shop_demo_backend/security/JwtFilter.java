@@ -23,9 +23,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String BEARER = "Bearer ";
-
     private final JwtProvider jwtProvider;
     private final UserDetailsService userDetailsService;
 
@@ -35,20 +32,12 @@ public class JwtFilter extends GenericFilterBean {
         if (!(request instanceof HttpServletRequest)) {
             throw new NotAuthorizedException("Non supported request");
         }
-        String token = detachToken((HttpServletRequest) request);
+        String token = jwtProvider.detachToken((HttpServletRequest) request);
         if (token != null && jwtProvider.validateToken(token)) {
             Authentication auth = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
         chain.doFilter(request, response);
-    }
-
-    private String detachToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (bearerToken != null && bearerToken.startsWith(BEARER)) {
-            return bearerToken.substring(BEARER.length());
-        }
-        return null;
     }
 
     private Authentication getAuthentication(String token) {

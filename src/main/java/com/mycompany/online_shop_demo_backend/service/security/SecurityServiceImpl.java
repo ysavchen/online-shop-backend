@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 @RequiredArgsConstructor
 public class SecurityServiceImpl implements SecurityService {
@@ -16,8 +18,15 @@ public class SecurityServiceImpl implements SecurityService {
     private final AuthenticationManager authManager;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public Authentication authenticate(String email, String password) {
         return authManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+    }
+
+    @Override
+    public String getUsernameFromRequest(HttpServletRequest request) {
+        String token = jwtProvider.detachToken(request);
+        return jwtProvider.getUsernameFromToken(token);
     }
 
     @Override

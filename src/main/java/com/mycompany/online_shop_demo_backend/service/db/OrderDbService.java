@@ -8,5 +8,5 @@ public interface OrderDbService {
 
     Order save(Order order);
 
-    List<Order> getOrdersByUserId(long id);
+    List<Order> getOrdersByEmail(String email);
 }

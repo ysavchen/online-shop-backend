@@ -7,10 +7,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
 public class JwtProvider {
+
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER = "Bearer ";
 
     private final String jwtSecret;
     private final long jwtValidity;
@@ -42,6 +46,14 @@ public class JwtProvider {
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token);
         return !claims.getBody().getExpiration().before(new Date());
+    }
+
+    public String detachToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if (bearerToken != null && bearerToken.startsWith(BEARER)) {
+            return bearerToken.substring(BEARER.length());
+        }
+        return null;
     }
 
     public String getUsernameFromToken(String token) {
