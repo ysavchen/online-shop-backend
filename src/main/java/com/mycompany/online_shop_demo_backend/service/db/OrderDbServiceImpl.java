@@ -24,10 +24,12 @@ public class OrderDbServiceImpl implements OrderDbService {
 
     @Override
     public Order save(Order order) {
-        order.getOrderBooks().forEach(orderToBook -> {
-            long bookId = orderToBook.getBook().getId();
+        Order savedOrder = orderRepository.save(order);
+        order.getOrderBooks().forEach(orderBook -> {
+            orderBook.setOrder(order);
+            long bookId = orderBook.getBook().getId();
             bookRepository.findById(bookId).ifPresentOrElse(
-                    book -> orderBookRepository.saveOrderBook(orderToBook),
+                    book -> orderBookRepository.save(orderBook),
                     () -> {
                         String message = "Book (id = " + bookId + ") is not found. " +
                                 "Order for " + order.getEmail() + " is not saved.";
@@ -36,7 +38,7 @@ public class OrderDbServiceImpl implements OrderDbService {
                     }
             );
         });
-        return orderRepository.save(order);
+        return savedOrder;
     }
 
     @Transactional(readOnly = true)
