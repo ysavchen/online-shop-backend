@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -28,7 +29,8 @@ public class OrderRequest {
                 .setAddresseeName(dto.getName())
                 .setAddress(new Address(0, dto.getAddress()))
                 .setPhone(new Phone(0, dto.getPhone()))
-                .setEmail(dto.getEmail());
+                .setEmail(dto.getEmail())
+                .setDateTime(LocalDateTime.now());
 
         dto.books.stream()
                 .map(BookDto::toDomainObject)

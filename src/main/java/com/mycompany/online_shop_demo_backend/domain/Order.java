@@ -3,6 +3,7 @@ package com.mycompany.online_shop_demo_backend.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,9 +34,12 @@ public class Order {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "order_date_time")
+    private LocalDateTime dateTime;
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<OrderBook> orderBooks = new ArrayList<>(); //can be duplicate(same) books in order
 
     public void addBook(Book book) {

@@ -20,7 +20,8 @@ create table orders (
     addressee_name varchar(255) not null,
     address_id bigint,
     phone_id bigint,
-    email varchar(255)
+    email varchar(255),
+    order_date_time timestamp
 );
 
 drop table if exists addresses;
