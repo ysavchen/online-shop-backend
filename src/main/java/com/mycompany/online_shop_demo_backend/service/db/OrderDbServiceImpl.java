@@ -6,11 +6,13 @@ import com.mycompany.online_shop_demo_backend.repositories.BookRepository;
 import com.mycompany.online_shop_demo_backend.repositories.OrderBookRepository;
 import com.mycompany.online_shop_demo_backend.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -27,7 +29,10 @@ public class OrderDbServiceImpl implements OrderDbService {
             bookRepository.findById(bookId).ifPresentOrElse(
                     book -> orderBookRepository.saveOrderBook(orderToBook),
                     () -> {
-                        throw new EntityNotFoundException("Book (id = " + bookId + ") is not found. Order is not saved.");
+                        String message = "Book (id = " + bookId + ") is not found. " +
+                                "Order for " + order.getEmail() + " is not saved.";
+                        logger.error(message);
+                        throw new EntityNotFoundException(message);
                     }
             );
         });
