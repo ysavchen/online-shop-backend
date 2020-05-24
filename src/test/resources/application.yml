@@ -1,6 +1,7 @@
-application:
-  jwtSecret: test
-  jwtValidity: 6000
+security:
+  token:
+    secretKey: test-key
+    expiration: 6000
 
 server:
   port: 8090

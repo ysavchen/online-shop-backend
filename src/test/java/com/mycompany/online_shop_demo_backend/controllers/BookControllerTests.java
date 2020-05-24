@@ -4,15 +4,12 @@ import com.google.gson.Gson;
 import com.mycompany.online_shop_demo_backend.domain.Author;
 import com.mycompany.online_shop_demo_backend.domain.Book;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
-import com.mycompany.online_shop_demo_backend.security.JwtProvider;
 import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -23,7 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(BookController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class BookControllerTests {
 
     private final Author authorOne = new Author(1, "Author One");
@@ -40,23 +38,12 @@ public class BookControllerTests {
 
     private final Gson gson = new Gson();
 
-    @Configuration
-    static class TestConfiguration {
-
-        @Bean
-        public JwtProvider jwtProvider() {
-            return new JwtProvider("test-secret", 6000);
-        }
-    }
-
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private BookDbService dbService;
 
-    //todo: add some users to test-db
-    @WithMockUser(username = "john.doe@test.com")
     @Test
     public void getBooks() throws Exception {
         when(dbService.getAllBooks()).thenReturn(books);
@@ -65,7 +52,6 @@ public class BookControllerTests {
                 .andExpect(content().json(gson.toJson(bookDtos)));
     }
 
-    @WithMockUser(username = "user@test.com", password = "test", roles = "USER")
     @Test
     public void getBookById() throws Exception {
         when(dbService.getById(bookOne.getId())).thenReturn(Optional.of(bookOne));
@@ -74,7 +60,6 @@ public class BookControllerTests {
                 .andExpect(content().json(gson.toJson(bookOneDto)));
     }
 
-    @WithMockUser(username = "user@test.com", password = "test", roles = "USER")
     @Test
     public void getBookByIdNegative() throws Exception {
         when(dbService.getById(NON_EXISTING_ID)).thenReturn(Optional.empty());

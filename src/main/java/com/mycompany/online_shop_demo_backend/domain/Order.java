@@ -3,9 +3,9 @@ package com.mycompany.online_shop_demo_backend.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -36,21 +36,21 @@ public class Order {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    private Set<OrderToBook> orderToBooks = new HashSet<>();
+    private List<OrderBook> orderBooks = new ArrayList<>(); //can be duplicate(same) books in order
 
     public void addBook(Book book) {
-        OrderToBook orderToBook = new OrderToBook(this, book);
-        orderToBooks.add(orderToBook);
+        OrderBook orderBook = new OrderBook(this, book);
+        orderBooks.add(orderBook);
     }
 
     public void removeBook(Book book) {
-        for (Iterator<OrderToBook> iterator = orderToBooks.iterator();
+        for (Iterator<OrderBook> iterator = orderBooks.iterator();
              iterator.hasNext(); ) {
-            OrderToBook orderToBook = iterator.next();
-            if (orderToBook.getOrder().equals(this) && orderToBook.getBook().equals(book)) {
+            OrderBook orderBook = iterator.next();
+            if (orderBook.getOrder().equals(this) && orderBook.getBook().equals(book)) {
                 iterator.remove();
-                orderToBook.setOrder(null);
-                orderToBook.setBook(null);
+                orderBook.setOrder(null);
+                orderBook.setBook(null);
             }
         }
     }

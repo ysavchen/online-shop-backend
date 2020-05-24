@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderToBookId implements Serializable {
+public class OrderBookId implements Serializable {
 
     @Column(name = "order_id")
     private long orderId;

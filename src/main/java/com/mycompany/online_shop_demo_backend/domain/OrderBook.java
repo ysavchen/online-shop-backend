@@ -6,11 +6,11 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "order_to_books")
-public class OrderToBook {
+@Table(name = "order_book")
+public class OrderBook {
 
     @EmbeddedId
-    private OrderToBookId orderToBookId;
+    private OrderBookId orderBookId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("order_id")
@@ -20,14 +20,12 @@ public class OrderToBook {
     @MapsId("book_id")
     private Book book;
 
-    //todo: quantity? (in case of two same books are ordered)
-
-    private OrderToBook() {
+    private OrderBook() {
     }
 
-    public OrderToBook(Order order, Book book) {
+    public OrderBook(Order order, Book book) {
         this.order = order;
         this.book = book;
-        this.orderToBookId = new OrderToBookId(order.getId(), book.getId());
+        this.orderBookId = new OrderBookId(order.getId(), book.getId());
     }
 }

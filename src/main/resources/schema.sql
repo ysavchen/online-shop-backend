@@ -36,7 +36,7 @@ create table phones (
 );
 
 drop table if exists order_to_books;
-create table order_to_books (
+create table order_book (
     order_id bigint not null,
     book_id bigint not null
 );

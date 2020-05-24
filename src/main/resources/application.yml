@@ -1,6 +1,7 @@
-application:
-  jwtSecret: t8$F&M?ytmp%bsdz$\JCB+@C2
-  jwtValidity: 600000
+security:
+  token:
+    secretKey: t8$F&M?ytmp%bsdz$\JCB+@C2
+    expiration: 600000
 
 server:
   port: 8090

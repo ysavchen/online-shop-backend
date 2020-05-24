@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_demo_backend.dto.response;
 
 import com.mycompany.online_shop_demo_backend.domain.Order;
-import com.mycompany.online_shop_demo_backend.domain.OrderToBook;
+import com.mycompany.online_shop_demo_backend.domain.OrderBook;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,8 +30,8 @@ public class OrderResponse {
                 order.getAddress().getValue(),
                 order.getPhone().getValue(),
                 order.getEmail(),
-                order.getOrderToBooks().stream()
-                        .map(OrderToBook::getBook)
+                order.getOrderBooks().stream()
+                        .map(OrderBook::getBook)
                         .map(BookDto::toDto)
                         .collect(toList())
         );

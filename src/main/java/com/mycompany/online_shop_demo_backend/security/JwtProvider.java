@@ -4,46 +4,40 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtProvider {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER = "Bearer ";
 
-    private final String jwtSecret;
-    private final long jwtValidity;
-
-    public JwtProvider(@Value("${application.jwtSecret}") String jwtSecret,
-                       @Value("${application.jwtValidity}") long jwtValidity) {
-        this.jwtSecret = jwtSecret;
-        this.jwtValidity = jwtValidity;
-    }
+    private final JwtProperties jwtProperties;
 
     public String generateToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + jwtValidity);
+        Date validity = new Date(now.getTime() + jwtProperties.getExpiration());
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, jwtSecret)
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
                 .compact();
     }
 
     public long getJwtValidity() {
-        return jwtValidity;
+        return jwtProperties.getExpiration();
     }
 
     public boolean validateToken(String token) {
         Jws<Claims> claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
+                .setSigningKey(jwtProperties.getSecretKey())
                 .parseClaimsJws(token);
         return !claims.getBody().getExpiration().before(new Date());
     }
@@ -58,7 +52,7 @@ public class JwtProvider {
 
     public String getUsernameFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(jwtSecret)
+                .setSigningKey(jwtProperties.getSecretKey())
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
