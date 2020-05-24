@@ -1,7 +1,7 @@
 security:
   token:
     secretKey: t8$F&M?ytmp%bsdz$\JCB+@C2
-    expiration: 600000
+    expiration: 3600000 # 1 hour
 
 server:
   port: 8090
