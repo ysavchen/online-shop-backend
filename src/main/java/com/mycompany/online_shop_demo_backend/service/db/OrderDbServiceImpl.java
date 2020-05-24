@@ -29,7 +29,7 @@ public class OrderDbServiceImpl implements OrderDbService {
             orderBook.setOrder(order);
             long bookId = orderBook.getBook().getId();
             bookRepository.findById(bookId).ifPresentOrElse(
-                    book -> orderBookRepository.save(orderBook),
+                    book -> orderBookRepository.saveOrderBook(orderBook),
                     () -> {
                         String message = "Book (id = " + bookId + ") is not found. " +
                                 "Order for " + order.getEmail() + " is not saved.";
