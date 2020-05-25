@@ -79,12 +79,6 @@ public class OrderControllerTests {
 
     private final Gson gson = new Gson();
 
-    @BeforeEach
-    void setup() {
-        order.setOrderBooks(orderBooks);
-
-    }
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -96,6 +90,11 @@ public class OrderControllerTests {
 
     @MockBean
     private SecurityService securityService;
+
+    @BeforeEach
+    void setup() {
+        order.setOrderBooks(orderBooks);
+    }
 
     @Test
     public void createOrder() throws Exception {

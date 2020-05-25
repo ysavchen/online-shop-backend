@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
@@ -93,5 +94,11 @@ public class AuthControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(gson.toJson(authResponse)));
+    }
+
+    @Test
+    public void loginWithFailedAuthentication() {
+        when(securityService.authenticate(anyString(), anyString())).thenThrow(new UsernameNotFoundException("User not found"));
+        //todo: add test
     }
 }
