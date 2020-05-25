@@ -16,9 +16,9 @@ public class ControllerAdvice {
         return new ResponseError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(NotAuthorizedException.class)
     ResponseError notAuthorizedException(NotAuthorizedException ex) {
-        return new ResponseError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
+        return new ResponseError(HttpStatus.UNAUTHORIZED, ex.getLocalizedMessage());
     }
 }

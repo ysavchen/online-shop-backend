@@ -9,6 +9,8 @@ import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,10 @@ public class AuthController {
     private final SecurityService securityService;
 
     @ApiOperation("Registers a user")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Successful execution"),
+            @ApiResponse(code = 500, message = "Error during execution")
+    })
     @PostMapping(path = "/api/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,6 +50,10 @@ public class AuthController {
     }
 
     @ApiOperation("Logs in a user")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successful execution"),
+            @ApiResponse(code = 500, message = "Error during execution")
+    })
     @PostMapping(path = "/api/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)

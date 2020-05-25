@@ -4,6 +4,8 @@ import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,10 @@ public class BookController {
     private final BookDbService dbService;
 
     @ApiOperation("Gets all books")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successful execution"),
+            @ApiResponse(code = 500, message = "Error during execution")
+    })
     @GetMapping(path = "/api/books",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BookDto> getBooks() {
@@ -30,6 +36,11 @@ public class BookController {
     }
 
     @ApiOperation("Gets a book with id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successful execution"),
+            @ApiResponse(code = 404, message = "Resource not found"),
+            @ApiResponse(code = 500, message = "Error during execution")
+    })
     @GetMapping(path = "/api/books/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public BookDto getBookById(@PathVariable("id") long id) {

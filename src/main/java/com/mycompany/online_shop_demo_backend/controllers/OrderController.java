@@ -6,6 +6,8 @@ import com.mycompany.online_shop_demo_backend.dto.response.OrderResponse;
 import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +26,11 @@ public class OrderController {
     private final SecurityService securityService;
 
     @ApiOperation("Creates an order")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Successful execution"),
+            @ApiResponse(code = 401, message = "Invalid authentication"),
+            @ApiResponse(code = 500, message = "Error during execution")
+    })
     @PostMapping(path = "/api/orders",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,6 +41,11 @@ public class OrderController {
     }
 
     @ApiOperation("Gets orders for an authenticated user")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successful execution"),
+            @ApiResponse(code = 401, message = "Invalid authentication"),
+            @ApiResponse(code = 500, message = "Error during execution")
+    })
     @GetMapping(path = "/api/users/{id}/orders",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderResponse> getUserOrders(HttpServletRequest request) {
