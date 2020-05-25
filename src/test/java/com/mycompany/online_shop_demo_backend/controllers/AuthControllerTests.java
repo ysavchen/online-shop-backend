@@ -97,8 +97,14 @@ public class AuthControllerTests {
     }
 
     @Test
-    public void loginWithFailedAuthentication() {
+    public void loginWithFailedAuthentication() throws Exception {
         when(securityService.authenticate(anyString(), anyString())).thenThrow(new UsernameNotFoundException("User not found"));
-        //todo: add test
+
+        mockMvc.perform(
+                post("/api/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(loginRequest)))
+                .andExpect(status().isUnauthorized());
     }
 }
