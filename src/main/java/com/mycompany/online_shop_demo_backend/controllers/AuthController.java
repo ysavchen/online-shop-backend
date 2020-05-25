@@ -52,6 +52,7 @@ public class AuthController {
     @ApiOperation("Logs in a user")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful execution"),
+            @ApiResponse(code = 404, message = "Resource not found"),
             @ApiResponse(code = 500, message = "Error during execution")
     })
     @PostMapping(path = "/api/login",
