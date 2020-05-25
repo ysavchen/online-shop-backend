@@ -1,7 +1,7 @@
 security:
   token:
     secretKey: test-key
-    expiration: 6000
+    expiration: 10000 # 10 seconds
 
 server:
   port: 8090

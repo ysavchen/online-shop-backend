@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class OrderControllerTests {
-    private final User userOne = new User(1, "Name One", "Surname One", "userOne@test.com", "$2a$10$Wfn//hRL3NrA9DG0fYRtYuhzLZc8CLDNKvv4Twcx55XEDsWABlD8K");
+    private final User userOne = new User(1, "Name One", "Surname One", "userOne@test.com", "Encoded Start01#");
     private final Author authorOne = new Author(1, "Author One");
     private final Author authorTwo = new Author(2, "Author Two");
 
@@ -91,6 +91,7 @@ public class OrderControllerTests {
     @Test
     public void createOrder() throws Exception {
         when(dbService.save(any(Order.class))).thenReturn(order);
+
         mockMvc.perform(
                 post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -106,6 +107,7 @@ public class OrderControllerTests {
     public void getUserOrders() throws Exception {
         when(securityService.getUsernameFromRequest(any(HttpServletRequest.class))).thenReturn(userOne.getEmail());
         when(dbService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(order));
+
         mockMvc.perform(
                 get("/api/users/{id}/orders", userOne.getId())
                         .accept(MediaType.APPLICATION_JSON))
