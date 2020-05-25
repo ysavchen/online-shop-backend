@@ -36,7 +36,7 @@ create table phones (
     phone varchar(255) not null
 );
 
-drop table if exists order_to_books;
+drop table if exists order_book;
 create table order_book (
     order_id bigint not null,
     book_id bigint not null
