@@ -5,14 +5,16 @@ import com.mycompany.online_shop_demo_backend.domain.*;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import com.mycompany.online_shop_demo_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.OrderResponse;
+import com.mycompany.online_shop_demo_backend.security.*;
 import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
+import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,8 +31,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(controllers = OrderController.class)
+@Import({JwtFilter.class,
+        JwtProperties.class,
+        JwtProvider.class,
+        SecurityConfiguration.class,
+        UserDetailsServiceImpl.class})
 public class OrderControllerTests {
     private final User userOne = new User(1, "Name One", "Surname One", "userOne@test.com", "Encoded Start01#");
     private final Author authorOne = new Author(1, "Author One");
@@ -83,14 +89,17 @@ public class OrderControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private OrderDbService dbService;
+    private OrderDbService orderDbService;
+
+    @MockBean
+    private UserDbService userDbService;
 
     @MockBean
     private SecurityService securityService;
 
     @Test
     public void createOrder() throws Exception {
-        when(dbService.save(any(Order.class))).thenReturn(order);
+        when(orderDbService.save(any(Order.class))).thenReturn(order);
 
         mockMvc.perform(
                 post("/api/orders")
@@ -106,7 +115,7 @@ public class OrderControllerTests {
     @Test
     public void getUserOrders() throws Exception {
         when(securityService.getUsernameFromRequest(any(HttpServletRequest.class))).thenReturn(userOne.getEmail());
-        when(dbService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(order));
+        when(orderDbService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(order));
 
         mockMvc.perform(
                 get("/api/users/{id}/orders", userOne.getId())

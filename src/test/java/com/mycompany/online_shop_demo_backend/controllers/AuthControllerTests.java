@@ -6,13 +6,14 @@ import com.mycompany.online_shop_demo_backend.dto.request.LoginRequest;
 import com.mycompany.online_shop_demo_backend.dto.request.RegisterRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.AuthResponse;
 import com.mycompany.online_shop_demo_backend.dto.response.UserResponse;
+import com.mycompany.online_shop_demo_backend.security.*;
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,8 +27,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(controllers = AuthController.class)
+@Import({JwtFilter.class,
+        JwtProperties.class,
+        JwtProvider.class,
+        SecurityConfiguration.class,
+        UserDetailsServiceImpl.class})
 public class AuthControllerTests {
 
     private final String userOneEmail = "userOne@test.com";
@@ -50,7 +55,7 @@ public class AuthControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserDbService dbService;
+    private UserDbService userDbService;
 
     @MockBean
     private SecurityService securityService;
@@ -60,7 +65,7 @@ public class AuthControllerTests {
         when(securityService.encodePassword(anyString())).thenReturn("Encoded " + registerRequest.getPassword());
         when(securityService.generateToken(anyString())).thenReturn(token);
         when(securityService.getTokenExpirationInMillis()).thenReturn(tokenExpiration);
-        when(dbService.save(any(User.class))).thenReturn(userOne);
+        when(userDbService.save(any(User.class))).thenReturn(userOne);
 
         mockMvc.perform(
                 post("/api/register")
@@ -76,7 +81,7 @@ public class AuthControllerTests {
     public void login() throws Exception {
         when(securityService.authenticate(anyString(), anyString()))
                 .thenReturn(new UsernamePasswordAuthenticationToken(userOneEmail, userOnePassword));
-        when(dbService.findByEmail(registerRequest.getEmail())).thenReturn(Optional.of(userOne));
+        when(userDbService.findByEmail(registerRequest.getEmail())).thenReturn(Optional.of(userOne));
         when(securityService.generateToken(userOne.getEmail())).thenReturn(token);
         when(securityService.getTokenExpirationInMillis()).thenReturn(tokenExpiration);
 

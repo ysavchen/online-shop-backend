@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import com.mycompany.online_shop_demo_backend.domain.Author;
 import com.mycompany.online_shop_demo_backend.domain.Book;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
+import com.mycompany.online_shop_demo_backend.security.*;
 import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
+import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -20,8 +22,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(controllers = BookController.class)
+@Import({JwtFilter.class,
+        JwtProperties.class,
+        JwtProvider.class,
+        SecurityConfiguration.class,
+        UserDetailsServiceImpl.class})
 public class BookControllerTests {
 
     private final Author authorOne = new Author(1, "Author One");
@@ -42,11 +48,14 @@ public class BookControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private BookDbService dbService;
+    private BookDbService bookDbService;
+
+    @MockBean
+    private UserDbService userDbService;
 
     @Test
     public void getBooks() throws Exception {
-        when(dbService.getAllBooks()).thenReturn(books);
+        when(bookDbService.getAllBooks()).thenReturn(books);
         mockMvc.perform(get("/api/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookDtos)));
@@ -54,7 +63,7 @@ public class BookControllerTests {
 
     @Test
     public void getBookById() throws Exception {
-        when(dbService.getById(bookOne.getId())).thenReturn(Optional.of(bookOne));
+        when(bookDbService.getById(bookOne.getId())).thenReturn(Optional.of(bookOne));
         mockMvc.perform(get("/api/books/{id}", bookOneDto.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookOneDto)));
@@ -62,7 +71,7 @@ public class BookControllerTests {
 
     @Test
     public void getBookByIdNegative() throws Exception {
-        when(dbService.getById(NON_EXISTING_ID)).thenReturn(Optional.empty());
+        when(bookDbService.getById(NON_EXISTING_ID)).thenReturn(Optional.empty());
         mockMvc.perform(get("/api/books/{id}", NON_EXISTING_ID))
                 .andExpect(status().isNotFound());
     }
