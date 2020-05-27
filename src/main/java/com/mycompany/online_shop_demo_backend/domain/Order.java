@@ -4,9 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -40,7 +40,7 @@ public class Order {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private List<OrderBook> orderBooks = new ArrayList<>(); //can be duplicate(same) books in order
+    private Set<OrderBook> orderBooks = new HashSet<>();
 
     public void addBook(Book book) {
         OrderBook orderBook = new OrderBook(this, book);

@@ -4,9 +4,13 @@ import com.google.gson.Gson;
 import com.mycompany.online_shop_demo_backend.domain.Author;
 import com.mycompany.online_shop_demo_backend.domain.Book;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
-import com.mycompany.online_shop_demo_backend.security.*;
+import com.mycompany.online_shop_demo_backend.security.SecurityConfiguration;
+import com.mycompany.online_shop_demo_backend.security.TokenAuthenticationFilter;
+import com.mycompany.online_shop_demo_backend.security.TokenProperties;
+import com.mycompany.online_shop_demo_backend.security.UserDetailsServiceImpl;
 import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
+import com.mycompany.online_shop_demo_backend.service.security.TokenServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,10 +26,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = BookController.class)
-@Import({JwtFilter.class,
-        JwtProperties.class,
-        JwtProvider.class,
+@WebMvcTest(BookController.class)
+@Import({TokenAuthenticationFilter.class,
+        TokenProperties.class,
+        TokenServiceImpl.class,
         SecurityConfiguration.class,
         UserDetailsServiceImpl.class})
 public class BookControllerTests {

@@ -20,6 +20,8 @@ public class OrderBook {
     @MapsId("book_id")
     private Book book;
 
+    //todo: quantity for same books
+
     private OrderBook() {
     }
 

@@ -8,6 +8,7 @@ import com.mycompany.online_shop_demo_backend.dto.response.UserResponse;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
+import com.mycompany.online_shop_demo_backend.service.security.TokenService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -27,6 +28,7 @@ public class AuthController {
 
     private final UserDbService dbService;
     private final SecurityService securityService;
+    private final TokenService tokenService;
 
     @ApiOperation("Registers a user")
     @ApiResponses({
@@ -43,8 +45,8 @@ public class AuthController {
 
         user.setPassword(securityService.encodePassword(user.getPassword()));
         UserResponse userResponse = UserResponse.toDto(dbService.save(user));
-        String token = securityService.generateToken(userResponse.getEmail());
-        long tokenExpiration = securityService.getTokenExpirationInMillis();
+        String token = tokenService.generateToken(userResponse.getEmail());
+        long tokenExpiration = tokenService.getTokenExpiration();
 
         return new AuthResponse(token, tokenExpiration, userResponse);
     }
@@ -65,8 +67,8 @@ public class AuthController {
         UserResponse userResponse = dbService.findByEmail(request.getEmail())
                 .map(UserResponse::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with email = " + request.getEmail() + " is not found"));
-        String token = securityService.generateToken(userResponse.getEmail());
-        long tokenExpiration = securityService.getTokenExpirationInMillis();
+        String token = tokenService.generateToken(userResponse.getEmail());
+        long tokenExpiration = tokenService.getTokenExpiration();
 
         return new AuthResponse(token, tokenExpiration, userResponse);
     }

@@ -8,12 +8,8 @@ public interface SecurityService {
 
     Authentication authenticate(String email, String password);
 
-    String getUsernameFromRequest(HttpServletRequest request);
-
-    String generateToken(String email);
-
-    long getTokenExpirationInMillis();
-
     String encodePassword(String password);
+
+    String getUsernameFromRequest(HttpServletRequest request);
 
 }

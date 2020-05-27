@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -34,7 +34,7 @@ public class OrderDbServiceImplTests {
             new Phone(1L, "+1111 1111"),
             "userOne@test.com",
             LocalDateTime.parse("2020-05-25T10:35:56.879695500"),
-            new ArrayList<>()
+            new HashSet<>()
     );
     private final OrderBook orderBook = new OrderBook(order, book);
 
@@ -52,7 +52,7 @@ public class OrderDbServiceImplTests {
 
     @BeforeEach
     void setup() {
-        order.setOrderBooks(List.of(orderBook));
+        order.setOrderBooks(Set.of(orderBook));
     }
 
     @Test

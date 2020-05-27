@@ -6,9 +6,14 @@ import com.mycompany.online_shop_demo_backend.dto.request.LoginRequest;
 import com.mycompany.online_shop_demo_backend.dto.request.RegisterRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.AuthResponse;
 import com.mycompany.online_shop_demo_backend.dto.response.UserResponse;
-import com.mycompany.online_shop_demo_backend.security.*;
+import com.mycompany.online_shop_demo_backend.security.SecurityConfiguration;
+import com.mycompany.online_shop_demo_backend.security.TokenAuthenticationFilter;
+import com.mycompany.online_shop_demo_backend.security.TokenProperties;
+import com.mycompany.online_shop_demo_backend.security.UserDetailsServiceImpl;
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
+import com.mycompany.online_shop_demo_backend.service.security.TokenService;
+import com.mycompany.online_shop_demo_backend.service.security.TokenServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,10 +33,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = AuthController.class)
-@Import({JwtFilter.class,
-        JwtProperties.class,
-        JwtProvider.class,
+@WebMvcTest(AuthController.class)
+@Import({TokenAuthenticationFilter.class,
+        TokenProperties.class,
+        TokenServiceImpl.class,
         SecurityConfiguration.class,
         UserDetailsServiceImpl.class})
 public class AuthControllerTests {
@@ -61,11 +66,14 @@ public class AuthControllerTests {
     @MockBean
     private SecurityService securityService;
 
+    @MockBean
+    private TokenService tokenService;
+
     @Test
     public void register() throws Exception {
         when(securityService.encodePassword(anyString())).thenReturn("Encoded " + registerRequest.getPassword());
-        when(securityService.generateToken(anyString())).thenReturn(token);
-        when(securityService.getTokenExpirationInMillis()).thenReturn(tokenExpiration);
+        when(tokenService.generateToken(anyString())).thenReturn(token);
+        when(tokenService.getTokenExpiration()).thenReturn(tokenExpiration);
         when(userDbService.save(any(User.class))).thenReturn(userOne);
 
         mockMvc.perform(
@@ -83,8 +91,8 @@ public class AuthControllerTests {
         when(securityService.authenticate(anyString(), anyString()))
                 .thenReturn(new UsernamePasswordAuthenticationToken(userOneEmail, userOnePassword));
         when(userDbService.findByEmail(registerRequest.getEmail())).thenReturn(Optional.of(userOne));
-        when(securityService.generateToken(userOne.getEmail())).thenReturn(token);
-        when(securityService.getTokenExpirationInMillis()).thenReturn(tokenExpiration);
+        when(tokenService.generateToken(userOne.getEmail())).thenReturn(token);
+        when(tokenService.getTokenExpiration()).thenReturn(tokenExpiration);
 
         mockMvc.perform(
                 post("/api/login")

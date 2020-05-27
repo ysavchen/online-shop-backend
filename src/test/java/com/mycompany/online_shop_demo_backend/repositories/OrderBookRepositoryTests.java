@@ -8,8 +8,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +25,7 @@ public class OrderBookRepositoryTests {
             new Phone(1L, "+1111 1111"),
             "testOrderBook@test.com",
             LocalDateTime.parse("2020-05-25T10:35:56.879695500"),
-            new ArrayList<>()
+            new HashSet<>()
     );
     private final OrderBook orderBook = new OrderBook(order, book);
 
@@ -40,7 +40,7 @@ public class OrderBookRepositoryTests {
 
     @BeforeEach
     void setup() {
-        order.setOrderBooks(List.of(orderBook));
+        order.setOrderBooks(Set.of(orderBook));
     }
 
     @Test

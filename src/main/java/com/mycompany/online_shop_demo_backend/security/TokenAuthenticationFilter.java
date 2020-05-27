@@ -1,6 +1,7 @@
 package com.mycompany.online_shop_demo_backend.security;
 
 import com.mycompany.online_shop_demo_backend.exceptions.NotAuthorizedException;
+import com.mycompany.online_shop_demo_backend.service.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +22,9 @@ import java.io.IOException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class JwtFilter extends GenericFilterBean {
+public class TokenAuthenticationFilter extends GenericFilterBean {
 
-    private final JwtProvider jwtProvider;
+    private final TokenService tokenService;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -32,8 +33,8 @@ public class JwtFilter extends GenericFilterBean {
         if (!(request instanceof HttpServletRequest)) {
             throw new NotAuthorizedException("Non supported request");
         }
-        String token = jwtProvider.detachToken((HttpServletRequest) request);
-        if (token != null && jwtProvider.validateToken(token)) {
+        String token = tokenService.detachToken((HttpServletRequest) request);
+        if (token != null && tokenService.validateToken(token)) {
             Authentication auth = getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
@@ -41,7 +42,7 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     private Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(jwtProvider.getUsernameFromToken(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(tokenService.getUsernameFromToken(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 }

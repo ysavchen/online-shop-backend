@@ -1,6 +1,5 @@
 package com.mycompany.online_shop_demo_backend.service.security;
 
-import com.mycompany.online_shop_demo_backend.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class SecurityServiceImpl implements SecurityService {
 
-    private final JwtProvider jwtProvider;
+    private final TokenService tokenService;
     private final AuthenticationManager authManager;
     private final PasswordEncoder passwordEncoder;
 
@@ -24,23 +23,13 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public String getUsernameFromRequest(HttpServletRequest request) {
-        String token = jwtProvider.detachToken(request);
-        return jwtProvider.getUsernameFromToken(token);
-    }
-
-    @Override
-    public String generateToken(String email) {
-        return jwtProvider.generateToken(email);
-    }
-
-    @Override
-    public long getTokenExpirationInMillis() {
-        return jwtProvider.getJwtValidity();
-    }
-
-    @Override
     public String encodePassword(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    @Override
+    public String getUsernameFromRequest(HttpServletRequest request) {
+        String token = tokenService.detachToken(request);
+        return tokenService.getUsernameFromToken(token);
     }
 }

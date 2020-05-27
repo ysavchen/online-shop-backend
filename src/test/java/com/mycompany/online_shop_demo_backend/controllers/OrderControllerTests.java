@@ -5,10 +5,14 @@ import com.mycompany.online_shop_demo_backend.domain.*;
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import com.mycompany.online_shop_demo_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.OrderResponse;
-import com.mycompany.online_shop_demo_backend.security.*;
+import com.mycompany.online_shop_demo_backend.security.SecurityConfiguration;
+import com.mycompany.online_shop_demo_backend.security.TokenAuthenticationFilter;
+import com.mycompany.online_shop_demo_backend.security.TokenProperties;
+import com.mycompany.online_shop_demo_backend.security.UserDetailsServiceImpl;
 import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
 import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
+import com.mycompany.online_shop_demo_backend.service.security.TokenServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +25,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -31,10 +36,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = OrderController.class)
-@Import({JwtFilter.class,
-        JwtProperties.class,
-        JwtProvider.class,
+@WebMvcTest(OrderController.class)
+@Import({TokenAuthenticationFilter.class,
+        TokenProperties.class,
+        TokenServiceImpl.class,
         SecurityConfiguration.class,
         UserDetailsServiceImpl.class})
 public class OrderControllerTests {
@@ -73,9 +78,9 @@ public class OrderControllerTests {
             new Phone(1L, "+1111 1111"),
             userOne.getEmail(),
             LocalDateTime.parse("2020-05-25T10:35:56.879695500"),
-            new ArrayList<>()
+            new HashSet<>()
     );
-    private final List<OrderBook> orderBooks = List.of(new OrderBook(order, bookOne), new OrderBook(order, bookTwo));
+    private final Set<OrderBook> orderBooks = Set.of(new OrderBook(order, bookOne), new OrderBook(order, bookTwo));
 
     private final Gson gson = new Gson();
 

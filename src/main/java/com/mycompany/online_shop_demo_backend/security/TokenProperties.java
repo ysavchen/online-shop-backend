@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Configuration
 @ConfigurationProperties("security.token")
-public class JwtProperties {
+public class TokenProperties {
 
     private String secretKey;
     private long expiration;
