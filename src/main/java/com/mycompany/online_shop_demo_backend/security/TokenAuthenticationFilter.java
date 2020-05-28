@@ -43,6 +43,6 @@ public class TokenAuthenticationFilter extends GenericFilterBean {
 
     private Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(tokenService.getUsernameFromToken(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 }
