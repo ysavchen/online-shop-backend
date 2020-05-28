@@ -38,10 +38,11 @@ public class TokenServiceImpl implements TokenService {
     }
 
     public boolean validateToken(String token) {
+        Date now = Date.from(Instant.now());
         Jws<Claims> claims = Jwts.parser()
                 .setSigningKey(tokenProperties.getSecretKey())
                 .parseClaimsJws(token);
-        return !claims.getBody().getExpiration().before(new Date());
+        return !claims.getBody().getExpiration().before(now);
     }
 
     public String detachToken(HttpServletRequest request) {
