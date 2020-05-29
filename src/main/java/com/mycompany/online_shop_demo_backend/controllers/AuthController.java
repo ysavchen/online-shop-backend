@@ -43,6 +43,7 @@ public class AuthController {
         logger.info("Register user with email {}", request.getEmail());
         User user = RegisterRequest.toDomainUser(request);
 
+        user.setPassword(securityService.encodePassword(user.getPassword()));
         UserResponse userResponse = UserResponse.toDto(dbService.save(user));
         String token = tokenService.generateToken(userResponse.getEmail());
         long tokenExpiration = tokenService.getTokenExpiration();

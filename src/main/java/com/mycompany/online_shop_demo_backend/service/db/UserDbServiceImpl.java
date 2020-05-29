@@ -2,7 +2,6 @@ package com.mycompany.online_shop_demo_backend.service.db;
 
 import com.mycompany.online_shop_demo_backend.domain.User;
 import com.mycompany.online_shop_demo_backend.repositories.UserRepository;
-import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +14,9 @@ import java.util.Optional;
 public class UserDbServiceImpl implements UserDbService {
 
     private final UserRepository userRepository;
-    private final SecurityService securityService;
 
     @Override
     public User save(User user) {
-        user.setPassword(securityService.encodePassword(user.getPassword()));
         return userRepository.save(user);
     }
 
