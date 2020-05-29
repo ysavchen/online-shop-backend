@@ -14,7 +14,6 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class OrderDbServiceImpl implements OrderDbService {
 
@@ -22,6 +21,7 @@ public class OrderDbServiceImpl implements OrderDbService {
     private final OrderBookRepository orderBookRepository;
     private final BookRepository bookRepository;
 
+    @Transactional
     @Override
     public Order save(Order order) {
         Order savedOrder = orderRepository.save(order);

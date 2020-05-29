@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class UserDbServiceImpl implements UserDbService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public User save(User user) {
         return userRepository.save(user);
