@@ -21,6 +21,7 @@ public class TokenServiceImpl implements TokenService {
 
     private final TokenProperties tokenProperties;
 
+    @Override
     public String generateToken(String email) {
         Claims claims = Jwts.claims().setSubject(email);
         Date now = Date.from(Instant.now());
@@ -33,10 +34,12 @@ public class TokenServiceImpl implements TokenService {
                 .compact();
     }
 
+    @Override
     public long getTokenExpiration() {
         return tokenProperties.getExpiration();
     }
 
+    @Override
     public boolean validateToken(String token) {
         Date now = Date.from(Instant.now());
         Jws<Claims> claims = Jwts.parser()
@@ -45,6 +48,7 @@ public class TokenServiceImpl implements TokenService {
         return !claims.getBody().getExpiration().before(now);
     }
 
+    @Override
     public String detachToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (bearerToken != null && bearerToken.startsWith(BEARER)) {
@@ -53,6 +57,7 @@ public class TokenServiceImpl implements TokenService {
         return null;
     }
 
+    @Override
     public String getUsernameFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(tokenProperties.getSecretKey())
