@@ -6,7 +6,7 @@ import com.mycompany.online_shop_demo_backend.dto.request.RegisterRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.AuthResponse;
 import com.mycompany.online_shop_demo_backend.dto.response.UserResponse;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
-import com.mycompany.online_shop_demo_backend.service.db.UserService;
+import com.mycompany.online_shop_demo_backend.service.UserService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenService;
 import io.swagger.annotations.ApiOperation;

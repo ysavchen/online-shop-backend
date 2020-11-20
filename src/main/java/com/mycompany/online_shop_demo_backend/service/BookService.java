@@ -1,4 +1,4 @@
-package com.mycompany.online_shop_demo_backend.service.db;
+package com.mycompany.online_shop_demo_backend.service;
 
 import com.mycompany.online_shop_demo_backend.domain.Book;
 

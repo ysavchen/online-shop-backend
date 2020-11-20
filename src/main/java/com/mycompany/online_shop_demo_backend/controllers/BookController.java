@@ -2,7 +2,7 @@ package com.mycompany.online_shop_demo_backend.controllers;
 
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
-import com.mycompany.online_shop_demo_backend.service.db.BookService;
+import com.mycompany.online_shop_demo_backend.service.BookService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

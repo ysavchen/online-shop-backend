@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_demo_backend.security;
 
 import com.mycompany.online_shop_demo_backend.domain.User;
-import com.mycompany.online_shop_demo_backend.service.db.UserService;
+import com.mycompany.online_shop_demo_backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

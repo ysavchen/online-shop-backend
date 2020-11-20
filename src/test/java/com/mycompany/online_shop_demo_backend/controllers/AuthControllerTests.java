@@ -10,7 +10,7 @@ import com.mycompany.online_shop_demo_backend.security.SecurityConfiguration;
 import com.mycompany.online_shop_demo_backend.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_demo_backend.security.TokenProperties;
 import com.mycompany.online_shop_demo_backend.security.UserDetailsServiceImpl;
-import com.mycompany.online_shop_demo_backend.service.db.UserService;
+import com.mycompany.online_shop_demo_backend.service.UserService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenServiceImpl;

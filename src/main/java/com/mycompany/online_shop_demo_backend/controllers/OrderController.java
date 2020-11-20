@@ -3,7 +3,7 @@ package com.mycompany.online_shop_demo_backend.controllers;
 import com.mycompany.online_shop_demo_backend.domain.Order;
 import com.mycompany.online_shop_demo_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.OrderResponse;
-import com.mycompany.online_shop_demo_backend.service.db.OrderService;
+import com.mycompany.online_shop_demo_backend.service.OrderService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

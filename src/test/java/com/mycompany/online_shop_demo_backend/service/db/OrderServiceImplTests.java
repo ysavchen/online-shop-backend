@@ -5,6 +5,7 @@ import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException
 import com.mycompany.online_shop_demo_backend.repositories.BookRepository;
 import com.mycompany.online_shop_demo_backend.repositories.OrderBookRepository;
 import com.mycompany.online_shop_demo_backend.repositories.OrderRepository;
+import com.mycompany.online_shop_demo_backend.service.OrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
