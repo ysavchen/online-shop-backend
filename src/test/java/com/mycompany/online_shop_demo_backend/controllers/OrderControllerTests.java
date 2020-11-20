@@ -9,8 +9,8 @@ import com.mycompany.online_shop_demo_backend.security.SecurityConfiguration;
 import com.mycompany.online_shop_demo_backend.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_demo_backend.security.TokenProperties;
 import com.mycompany.online_shop_demo_backend.security.UserDetailsServiceImpl;
-import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
-import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
+import com.mycompany.online_shop_demo_backend.service.db.OrderService;
+import com.mycompany.online_shop_demo_backend.service.db.UserService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,10 +88,10 @@ public class OrderControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private OrderDbService orderDbService;
+    private OrderService orderService;
 
     @MockBean
-    private UserDbService userDbService;
+    private UserService userService;
 
     @MockBean
     private SecurityService securityService;
@@ -103,7 +103,7 @@ public class OrderControllerTests {
 
     @Test
     public void createOrder() throws Exception {
-        when(orderDbService.save(any(Order.class))).thenReturn(order);
+        when(orderService.save(any(Order.class))).thenReturn(order);
 
         mockMvc.perform(
                 post("/api/orders")
@@ -119,7 +119,7 @@ public class OrderControllerTests {
     @Test
     public void getUserOrders() throws Exception {
         when(securityService.getUsernameFromRequest(any(HttpServletRequest.class))).thenReturn(userOne.getEmail());
-        when(orderDbService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(order));
+        when(orderService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(order));
 
         mockMvc.perform(
                 get("/api/users/{id}/orders", userOne.getId())

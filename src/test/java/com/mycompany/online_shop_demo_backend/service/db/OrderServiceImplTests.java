@@ -21,9 +21,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@Import(OrderDbServiceImpl.class)
+@Import(OrderServiceImpl.class)
 @ExtendWith(SpringExtension.class)
-public class OrderDbServiceImplTests {
+public class OrderServiceImplTests {
 
     private final Author author = new Author(1, "Author One");
     private final Book book = new Book(1, "Book One", "Description One", author, "/imageOne", 22.95);
@@ -48,7 +48,7 @@ public class OrderDbServiceImplTests {
     private BookRepository bookRepository;
 
     @Autowired
-    private OrderDbServiceImpl orderDbService;
+    private OrderServiceImpl orderService;
 
     @BeforeEach
     void setup() {
@@ -61,7 +61,7 @@ public class OrderDbServiceImplTests {
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
         doNothing().when(orderBookRepository).saveOrderBook(orderBook);
 
-        orderDbService.save(order);
+        orderService.save(order);
         verify(orderRepository, times(1)).save(order);
         verify(orderBookRepository, times(1)).saveOrderBook(orderBook);
     }
@@ -71,7 +71,7 @@ public class OrderDbServiceImplTests {
         when(orderRepository.save(order)).thenReturn(order);
         when(bookRepository.findById(book.getId())).thenThrow(new EntityNotFoundException("not found"));
 
-        assertThrows(EntityNotFoundException.class, () -> orderDbService.save(order));
+        assertThrows(EntityNotFoundException.class, () -> orderService.save(order));
         verify(orderRepository, times(1)).save(order);
         verify(orderBookRepository, never()).saveOrderBook(orderBook);
     }

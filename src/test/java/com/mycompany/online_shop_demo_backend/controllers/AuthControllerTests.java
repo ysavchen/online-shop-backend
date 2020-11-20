@@ -10,7 +10,7 @@ import com.mycompany.online_shop_demo_backend.security.SecurityConfiguration;
 import com.mycompany.online_shop_demo_backend.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_demo_backend.security.TokenProperties;
 import com.mycompany.online_shop_demo_backend.security.UserDetailsServiceImpl;
-import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
+import com.mycompany.online_shop_demo_backend.service.db.UserService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenServiceImpl;
@@ -61,7 +61,7 @@ public class AuthControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private UserDbService userDbService;
+    private UserService userService;
 
     @MockBean
     private SecurityService securityService;
@@ -74,7 +74,7 @@ public class AuthControllerTests {
         when(securityService.encodePassword(anyString())).thenReturn("Encoded " + registerRequest.getPassword());
         when(tokenService.generateToken(anyString())).thenReturn(token);
         when(tokenService.getTokenExpiration()).thenReturn(tokenExpiration);
-        when(userDbService.save(any(User.class))).thenReturn(userOne);
+        when(userService.save(any(User.class))).thenReturn(userOne);
 
         mockMvc.perform(
                 post("/api/register")
@@ -90,7 +90,7 @@ public class AuthControllerTests {
     public void login() throws Exception {
         when(securityService.authenticate(anyString(), anyString()))
                 .thenReturn(new UsernamePasswordAuthenticationToken(userOneEmail, userOnePassword));
-        when(userDbService.findByEmail(registerRequest.getEmail())).thenReturn(Optional.of(userOne));
+        when(userService.findByEmail(registerRequest.getEmail())).thenReturn(Optional.of(userOne));
         when(tokenService.generateToken(userOne.getEmail())).thenReturn(token);
         when(tokenService.getTokenExpiration()).thenReturn(tokenExpiration);
 

@@ -1,7 +1,7 @@
 package com.mycompany.online_shop_demo_backend.security;
 
 import com.mycompany.online_shop_demo_backend.domain.User;
-import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
+import com.mycompany.online_shop_demo_backend.service.db.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final String ROLE_USER = "ROLE_USER";
-    private final UserDbService userDbService;
+    private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        String password = userDbService.findByEmail(email)
+        String password = userService.findByEmail(email)
                 .map(User::getPassword)
                 .orElseThrow(() -> new UsernameNotFoundException("User with email = " + email + " is not found"));
 

@@ -4,7 +4,7 @@ import com.mycompany.online_shop_demo_backend.domain.Order;
 
 import java.util.List;
 
-public interface OrderDbService {
+public interface OrderService {
 
     Order save(Order order);
 

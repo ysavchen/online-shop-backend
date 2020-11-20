@@ -8,8 +8,8 @@ import com.mycompany.online_shop_demo_backend.security.SecurityConfiguration;
 import com.mycompany.online_shop_demo_backend.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_demo_backend.security.TokenProperties;
 import com.mycompany.online_shop_demo_backend.security.UserDetailsServiceImpl;
-import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
-import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
+import com.mycompany.online_shop_demo_backend.service.db.BookService;
+import com.mycompany.online_shop_demo_backend.service.db.UserService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +52,14 @@ public class BookControllerTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private BookDbService bookDbService;
+    private BookService bookService;
 
     @MockBean
-    private UserDbService userDbService;
+    private UserService userService;
 
     @Test
     public void getBooks() throws Exception {
-        when(bookDbService.getAllBooks()).thenReturn(books);
+        when(bookService.getAllBooks()).thenReturn(books);
         mockMvc.perform(get("/api/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookDtos)));
@@ -67,7 +67,7 @@ public class BookControllerTests {
 
     @Test
     public void getBookById() throws Exception {
-        when(bookDbService.getById(bookOne.getId())).thenReturn(Optional.of(bookOne));
+        when(bookService.getById(bookOne.getId())).thenReturn(Optional.of(bookOne));
         mockMvc.perform(get("/api/books/{id}", bookOneDto.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookOneDto)));
@@ -75,7 +75,7 @@ public class BookControllerTests {
 
     @Test
     public void getBookByIdNegative() throws Exception {
-        when(bookDbService.getById(NON_EXISTING_ID)).thenReturn(Optional.empty());
+        when(bookService.getById(NON_EXISTING_ID)).thenReturn(Optional.empty());
         mockMvc.perform(get("/api/books/{id}", NON_EXISTING_ID))
                 .andExpect(status().isNotFound());
     }

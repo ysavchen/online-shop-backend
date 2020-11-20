@@ -2,7 +2,7 @@ package com.mycompany.online_shop_demo_backend.controllers;
 
 import com.mycompany.online_shop_demo_backend.dto.BookDto;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
-import com.mycompany.online_shop_demo_backend.service.db.BookDbService;
+import com.mycompany.online_shop_demo_backend.service.db.BookService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final BookDbService dbService;
+    private final BookService bookService;
 
     @ApiOperation("Gets all books")
     @ApiResponses({
@@ -30,7 +30,7 @@ public class BookController {
     @GetMapping(path = "/api/books",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BookDto> getBooks() {
-        return dbService.getAllBooks().stream()
+        return bookService.getAllBooks().stream()
                 .map(BookDto::toDto)
                 .collect(toList());
     }
@@ -44,7 +44,7 @@ public class BookController {
     @GetMapping(path = "/api/books/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public BookDto getBookById(@PathVariable("id") long id) {
-        return dbService.getById(id)
+        return bookService.getById(id)
                 .map(BookDto::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id = " + id + " is not found"));
     }

@@ -3,7 +3,7 @@ package com.mycompany.online_shop_demo_backend.controllers;
 import com.mycompany.online_shop_demo_backend.domain.Order;
 import com.mycompany.online_shop_demo_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.OrderResponse;
-import com.mycompany.online_shop_demo_backend.service.db.OrderDbService;
+import com.mycompany.online_shop_demo_backend.service.db.OrderService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderDbService orderDbService;
+    private final OrderService orderService;
     private final SecurityService securityService;
 
     @ApiOperation("Creates an order")
@@ -37,7 +37,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
         Order order = OrderRequest.toDomainObject(request);
-        return OrderResponse.toDto(orderDbService.save(order));
+        return OrderResponse.toDto(orderService.save(order));
     }
 
     @ApiOperation("Gets orders for an authenticated user")
@@ -50,7 +50,7 @@ public class OrderController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderResponse> getUserOrders(HttpServletRequest request) {
         String email = securityService.getUsernameFromRequest(request);
-        return orderDbService.getOrdersByEmail(email)
+        return orderService.getOrdersByEmail(email)
                 .stream()
                 .map(OrderResponse::toDto)
                 .collect(toList());

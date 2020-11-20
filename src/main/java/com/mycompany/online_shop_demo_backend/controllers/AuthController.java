@@ -6,7 +6,7 @@ import com.mycompany.online_shop_demo_backend.dto.request.RegisterRequest;
 import com.mycompany.online_shop_demo_backend.dto.response.AuthResponse;
 import com.mycompany.online_shop_demo_backend.dto.response.UserResponse;
 import com.mycompany.online_shop_demo_backend.exceptions.EntityNotFoundException;
-import com.mycompany.online_shop_demo_backend.service.db.UserDbService;
+import com.mycompany.online_shop_demo_backend.service.db.UserService;
 import com.mycompany.online_shop_demo_backend.service.security.SecurityService;
 import com.mycompany.online_shop_demo_backend.service.security.TokenService;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserDbService dbService;
+    private final UserService userService;
     private final SecurityService securityService;
     private final TokenService tokenService;
 
@@ -44,7 +44,7 @@ public class AuthController {
         User user = RegisterRequest.toDomainUser(request);
 
         user.setPassword(securityService.encodePassword(user.getPassword()));
-        UserResponse userResponse = UserResponse.toDto(dbService.save(user));
+        UserResponse userResponse = UserResponse.toDto(userService.save(user));
         String token = tokenService.generateToken(userResponse.getEmail());
         long tokenExpiration = tokenService.getTokenExpiration();
 
@@ -64,7 +64,7 @@ public class AuthController {
         logger.info("Login with email {}", request.getEmail());
         securityService.authenticate(request.getEmail(), request.getPassword());
 
-        UserResponse userResponse = dbService.findByEmail(request.getEmail())
+        UserResponse userResponse = userService.findByEmail(request.getEmail())
                 .map(UserResponse::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("User with email = " + request.getEmail() + " is not found"));
         String token = tokenService.generateToken(userResponse.getEmail());
