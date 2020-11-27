@@ -23,12 +23,10 @@ public class Order {
     private String addresseeName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "address_id")
     private Address address;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "phone_id")
     private Phone phone;
 
     @Column(name = "email")

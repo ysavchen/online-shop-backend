@@ -3,7 +3,6 @@ package com.mycompany.online_shop_demo_backend.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -30,7 +29,6 @@ public class Book {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "author_id")
     private Author author;
 
     @Column(name = "image")
