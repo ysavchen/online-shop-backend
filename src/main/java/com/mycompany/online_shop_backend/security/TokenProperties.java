@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties("security.token")
+@ConfigurationProperties("application.security.token")
 public class TokenProperties {
 
     private String secretKey;

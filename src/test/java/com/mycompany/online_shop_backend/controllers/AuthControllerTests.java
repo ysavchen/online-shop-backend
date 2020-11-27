@@ -48,10 +48,16 @@ public class AuthControllerTests {
     private final long tokenExpiration = 10000L;
 
     private final User userOne = new User(1, "Name One", "Surname One", userOneEmail, userOnePasswordEncoded);
-    private final RegisterRequest registerRequest = new RegisterRequest(userOne.getFirstName(), userOne.getLastName(), userOneEmail, userOnePassword);
+    private final RegisterRequest registerRequest = new RegisterRequest(
+            userOne.getFirstName(),
+            userOne.getLastName(),
+            userOneEmail,
+            userOnePassword
+    );
     private final AuthResponse authResponse = new AuthResponse(
             token, tokenExpiration,
-            new UserResponse(userOne.getId(), userOne.getFirstName(), userOne.getLastName(), userOne.getEmail()));
+            new UserResponse(userOne.getId(), userOne.getFirstName(), userOne.getLastName(), userOne.getEmail())
+    );
 
     private final LoginRequest loginRequest = new LoginRequest(userOneEmail, userOnePassword);
 
