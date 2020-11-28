@@ -8,7 +8,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:test_db
     driver-class-name: org.h2.Driver
     initialization-mode: always
     data: classpath:/test-data.sql
