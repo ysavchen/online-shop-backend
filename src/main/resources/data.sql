@@ -73,7 +73,7 @@ insert into addresses (id, address) values (2, 'Park Ave, 3');
 
 insert into phones (id, phone) values (1, '+9853 7456');
 
-insert into orders (id, addressee_name, address_id, phone_id, email, order_date_time) values (1, 'John Doe', 1, 1, 'john.doe@test.com', '2020-05-25T10:35:56.879695500');
+insert into orders (id, addressee_name, address_id, phone_id, email, created_at) values (1, 'John Doe', 1, 1, 'john.doe@test.com', 1606584041);
 insert into order_book (order_id, book_id) values (1, 1);
 insert into order_book (order_id, book_id) values (1, 2);
 insert into order_book (order_id, book_id) values (1, 3);

@@ -21,7 +21,7 @@ public class OrderResponse {
     private String address;
     private String phone;
     private String email;
-    private String dateTime;
+    private String createdAt;
     private List<BookDto> books;
 
     public static OrderResponse toDto(Order order) {
@@ -31,7 +31,7 @@ public class OrderResponse {
                 order.getAddress().getValue(),
                 order.getPhone().getValue(),
                 order.getEmail(),
-                order.getDateTime().toString(),
+                order.getCreatedAt().toString(),
                 order.getOrderBooks().stream()
                         .map(OrderBook::getBook)
                         .map(BookDto::toDto)

@@ -1,18 +1,25 @@
 package com.mycompany.online_shop_backend.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Order {
 
     @Id
@@ -25,18 +32,16 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Address address;
 
-    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Phone phone;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "order_date_time")
-    private LocalDateTime dateTime;
+    @CreatedDate
+    @Column(name = "created_at")
+    private Long createdAt;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Set<OrderBook> orderBooks = new HashSet<>();
 
@@ -55,5 +60,34 @@ public class Order {
                 orderBook.setBook(null);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return Objects.equals(addresseeName, order.addresseeName) &&
+                Objects.equals(address, order.address) &&
+                Objects.equals(phone, order.phone) &&
+                Objects.equals(email, order.email) &&
+                Objects.equals(createdAt, order.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(addresseeName, address, phone, email, createdAt);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", addresseeName='" + addresseeName + '\'' +
+                ", address=" + address +
+                ", phone=" + phone +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
