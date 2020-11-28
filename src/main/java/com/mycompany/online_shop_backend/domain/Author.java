@@ -10,8 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "authors")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Author {

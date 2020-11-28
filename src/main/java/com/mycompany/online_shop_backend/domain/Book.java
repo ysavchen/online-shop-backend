@@ -14,8 +14,7 @@ import java.util.Objects;
         attributeNodes = {
                 @NamedAttributeNode("author"),
         })
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {

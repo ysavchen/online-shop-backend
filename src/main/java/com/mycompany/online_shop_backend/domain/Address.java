@@ -10,8 +10,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "addresses")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {

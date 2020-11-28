@@ -15,8 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "orders")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
