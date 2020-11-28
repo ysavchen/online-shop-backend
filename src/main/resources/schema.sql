@@ -52,10 +52,10 @@ create table users (
 );
 
 alter table books
-add foreign key (author_id) references authors(id) on delete cascade;
+add foreign key (author_id) references authors(id);
 
 alter table orders
-add foreign key (address_id) references addresses(id) on delete cascade;
+add foreign key (address_id) references addresses(id);
 
 alter table orders
-add foreign key (phone_id) references phones(id) on delete cascade;
+add foreign key (phone_id) references phones(id);
