@@ -8,8 +8,10 @@ import java.util.TimeZone;
 @Configuration
 public class AppConfig {
 
+    private static final String SERVER_TIMEZONE = "UTC";
+
     @PostConstruct
     public void setTimezone() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(TimeZone.getTimeZone(SERVER_TIMEZONE));
     }
 }
