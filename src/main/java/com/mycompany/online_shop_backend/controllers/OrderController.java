@@ -36,7 +36,7 @@ public class OrderController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
-        Order order = OrderRequest.toDomainObject(request);
+        Order order = OrderRequest.toEntity(request);
         return OrderResponse.toDto(orderService.save(order));
     }
 

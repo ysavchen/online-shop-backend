@@ -22,7 +22,7 @@ public class OrderRequest {
     private String email;
     private List<BookDto> books;
 
-    public static Order toDomainObject(OrderRequest dto) {
+    public static Order toEntity(OrderRequest dto) {
         Order order = new Order();
         order.setId(dto.id)
                 .setAddresseeName(dto.getName())
@@ -31,7 +31,7 @@ public class OrderRequest {
                 .setEmail(dto.getEmail());
 
         dto.books.stream()
-                .map(BookDto::toDomainObject)
+                .map(BookDto::toEntity)
                 .forEach(order::addBook);
 
         return order;

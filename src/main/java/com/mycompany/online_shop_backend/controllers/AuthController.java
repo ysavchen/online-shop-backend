@@ -41,7 +41,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public AuthResponse register(@RequestBody RegisterRequest request) {
         logger.info("Register user with email {}", request.getEmail());
-        User user = RegisterRequest.toDomainUser(request);
+        User user = RegisterRequest.toUserEntity(request);
 
         user.setPassword(securityService.encodePassword(user.getPassword()));
         UserResponse userResponse = UserResponse.toDto(userService.save(user));

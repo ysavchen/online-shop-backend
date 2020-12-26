@@ -24,7 +24,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +53,15 @@ public class OrderControllerTests {
     private final BookDto bookTwoDto = BookDto.toDto(bookTwo);
     private final List<BookDto> bookDtos = List.of(bookOneDto, bookTwoDto);
 
+    private final Order order = new Order(
+            1L,
+            userOne.getFirstName() + " " + userOne.getLastName(),
+            new Address(1L, "Address, 1"),
+            new Phone(1L, "+1111 1111"),
+            userOne.getEmail(),
+            Instant.now().getEpochSecond(),
+            new HashSet<>()
+    );
     private final OrderRequest orderRequest = new OrderRequest(
             0L,
             userOne.getFirstName() + " " + userOne.getLastName(),
@@ -67,19 +76,10 @@ public class OrderControllerTests {
             "Address, 1",
             "+1111 1111",
             userOne.getEmail(),
-            "2020-05-25T10:35:56.879695500",
+            order.getCreatedAt(),
             bookDtos
     );
 
-    private final Order order = new Order(
-            1L,
-            userOne.getFirstName() + " " + userOne.getLastName(),
-            new Address(1L, "Address, 1"),
-            new Phone(1L, "+1111 1111"),
-            userOne.getEmail(),
-            LocalDateTime.parse("2020-05-25T10:35:56.879695500"),
-            new HashSet<>()
-    );
     private final Set<OrderBook> orderBooks = Set.of(new OrderBook(order, bookOne), new OrderBook(order, bookTwo));
 
     private final Gson gson = new Gson();

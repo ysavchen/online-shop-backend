@@ -26,7 +26,7 @@ public class BookDto {
         );
     }
 
-    public static Book toDomainObject(BookDto dto) {
+    public static Book toEntity(BookDto dto) {
         return new Book(
                 dto.id, dto.title,
                 dto.description,

@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
@@ -37,12 +37,16 @@ public class Order {
     @Column(name = "email")
     private String email;
 
-    @CreatedDate
     @Column(name = "created_at")
     private Long createdAt;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Set<OrderBook> orderBooks = new HashSet<>();
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now().getEpochSecond();
+    }
 
     public void addBook(Book book) {
         OrderBook orderBook = new OrderBook(this, book);
