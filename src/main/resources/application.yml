@@ -5,7 +5,7 @@ application:
       expiration: 3600000 # 1 hour
 
 server:
-  port: 8090
+  port: ${SERVER_PORT:8090}
 
 spring:
   datasource:
