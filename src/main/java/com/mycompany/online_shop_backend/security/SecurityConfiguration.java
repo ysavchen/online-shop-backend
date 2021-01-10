@@ -32,13 +32,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(PUBLIC_RESOURCES).permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy((SessionCreationPolicy.STATELESS))
+                )
+                .authorizeRequests(requests ->
+                        requests.antMatchers(PUBLIC_RESOURCES).permitAll()
+                                .anyRequest().authenticated()
+                )
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
