@@ -1,25 +1,35 @@
 package com.mycompany.online_shop_backend.controllers.handler;
 
-import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
-import com.mycompany.online_shop_backend.exceptions.NotAuthorizedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+
+@Slf4j
 @RestControllerAdvice
 public class ControllerAdvice {
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(EntityNotFoundException.class)
-    ResponseError entityNotFoundException(EntityNotFoundException ex) {
-        return new ResponseError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
-    }
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> exception(Exception ex, HttpServletRequest request) {
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        ResponseStatus responseStatus = ex.getClass().getAnnotation(ResponseStatus.class);
+        if (responseStatus != null) {
+            httpStatus = responseStatus.value();
+        }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({NotAuthorizedException.class, AuthenticationException.class})
-    ResponseError notAuthorizedException(RuntimeException ex) {
-        return new ResponseError(HttpStatus.UNAUTHORIZED, ex.getLocalizedMessage());
+        switch (httpStatus) {
+            case INTERNAL_SERVER_ERROR -> logger.error("", ex);
+            case BAD_REQUEST -> logger.info("400 Bad Request - " + ex);
+            default -> logger.warn("", ex);
+        }
+
+        var response = new ErrorResponse(
+                httpStatus, ex.getMessage(), request.getRequestURI()
+        );
+        return new ResponseEntity<>(response, httpStatus);
     }
 }
