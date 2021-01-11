@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public class OrderBookRepositoryTests {
             new Address(1L, "Address, 1"),
             new Phone(1L, "+1111 1111"),
             "testOrderBook@test.com",
-            Instant.now().getEpochSecond(),
+            LocalDateTime.now(),
             new HashSet<>()
     );
     private final OrderBook orderBook = new OrderBook(order, book);

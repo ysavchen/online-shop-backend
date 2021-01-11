@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -21,7 +22,7 @@ public class OrderResponse {
     private String address;
     private String phone;
     private String email;
-    private Long createdAt;
+    private String createdAt;
     private List<BookDto> books;
 
     public static OrderResponse toDto(Order order) {
@@ -31,7 +32,7 @@ public class OrderResponse {
                 order.getAddress().getValue(),
                 order.getPhone().getValue(),
                 order.getEmail(),
-                order.getCreatedAt(),
+                order.getCreatedAt().toInstant(ZoneOffset.UTC).toString(),
                 order.getOrderBooks().stream()
                         .map(OrderBook::getBook)
                         .map(BookDto::toDto)

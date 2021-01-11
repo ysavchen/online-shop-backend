@@ -14,7 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -34,7 +34,7 @@ public class OrderServiceImplTests {
             new Address(1L, "Address, 1"),
             new Phone(1L, "+1111 1111"),
             "userOne@test.com",
-            ZonedDateTime.now().toEpochSecond(),
+            LocalDateTime.now(),
             new HashSet<>()
     );
     private final OrderBook orderBook = new OrderBook(order, book);

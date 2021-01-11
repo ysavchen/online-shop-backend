@@ -11,6 +11,6 @@ insert into addresses (id, address) values (1, 'Address, 1');
 
 insert into phones (id, phone) values (1, '+1111 1111');
 
-insert into orders (id, addressee_name, address_id, phone_id, email, created_at) values (1, 'Name One Surname One', 1, 1, 'userOne@test.com', 1609002776);
+insert into orders (id, addressee_name, address_id, phone_id, email, created_at) values (1, 'Name One Surname One', 1, 1, 'userOne@test.com', '2020-05-25T10:35:56.879695500');
 insert into order_book (order_id, book_id) values (1, 1);
 insert into order_book (order_id, book_id) values (1, 2);

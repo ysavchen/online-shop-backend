@@ -21,7 +21,7 @@ create table orders (
     address_id bigint,
     phone_id bigint,
     email varchar(255),
-    created_at bigint
+    created_at timestamp
 );
 
 drop table if exists addresses;

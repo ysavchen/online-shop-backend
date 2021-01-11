@@ -31,9 +31,11 @@ public class OrderController {
             @ApiResponse(code = 401, message = "Invalid authentication"),
             @ApiResponse(code = 500, message = "Error during execution")
     })
-    @PostMapping(path = "/api/orders",
+    @PostMapping(
+            path = "/api/orders",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
         Order order = OrderRequest.toEntity(request);
@@ -46,8 +48,10 @@ public class OrderController {
             @ApiResponse(code = 401, message = "Invalid authentication"),
             @ApiResponse(code = 500, message = "Error during execution")
     })
-    @GetMapping(path = "/api/users/{id}/orders",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            path = "/api/users/{id}/orders",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public List<OrderResponse> getUserOrders(HttpServletRequest request) {
         String email = securityService.getUsernameFromRequest(request);
         return orderService.getOrdersByEmail(email)

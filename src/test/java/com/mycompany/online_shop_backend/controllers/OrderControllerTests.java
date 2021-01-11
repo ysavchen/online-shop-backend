@@ -24,7 +24,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,7 +60,7 @@ public class OrderControllerTests {
             new Address(1L, "Address, 1"),
             new Phone(1L, "+1111 1111"),
             userOne.getEmail(),
-            Instant.now().getEpochSecond(),
+            LocalDateTime.now(),
             new HashSet<>()
     );
     private final OrderRequest orderRequest = new OrderRequest(
@@ -76,7 +77,7 @@ public class OrderControllerTests {
             "Address, 1",
             "+1111 1111",
             userOne.getEmail(),
-            order.getCreatedAt(),
+            order.getCreatedAt().toInstant(ZoneOffset.UTC).toString(),
             bookDtos
     );
 
