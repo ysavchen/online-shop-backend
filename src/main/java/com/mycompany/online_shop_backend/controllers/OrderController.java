@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 @RestController
 @RequiredArgsConstructor
 public class OrderController {
@@ -39,7 +37,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
         Order order = OrderRequest.toEntity(request);
-        return OrderResponse.toDto(orderService.save(order));
+        return orderService.save(order);
     }
 
     @ApiOperation("Gets orders for an authenticated user")
@@ -54,9 +52,6 @@ public class OrderController {
     )
     public List<OrderResponse> getUserOrders(HttpServletRequest request) {
         String email = securityService.getUsernameFromRequest(request);
-        return orderService.getOrdersByEmail(email)
-                .stream()
-                .map(OrderResponse::toDto)
-                .collect(toList());
+        return orderService.getOrdersByEmail(email);
     }
 }

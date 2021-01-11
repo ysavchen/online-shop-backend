@@ -1,6 +1,7 @@
 package com.mycompany.online_shop_backend.service;
 
 import com.mycompany.online_shop_backend.domain.Order;
+import com.mycompany.online_shop_backend.dto.response.OrderResponse;
 import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repositories.BookRepository;
 import com.mycompany.online_shop_backend.repositories.OrderBookRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
@@ -23,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public Order save(Order order) {
+    public OrderResponse save(Order order) {
         Order savedOrder = orderRepository.save(order);
         order.getOrderBooks().forEach(orderBook -> {
             orderBook.setOrder(order);
@@ -38,12 +41,15 @@ public class OrderServiceImpl implements OrderService {
                     }
             );
         });
-        return savedOrder;
+        return OrderResponse.toDto(savedOrder);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<Order> getOrdersByEmail(String email) {
-        return orderRepository.findByEmail(email);
+    public List<OrderResponse> getOrdersByEmail(String email) {
+        return orderRepository.findByEmail(email)
+                .stream()
+                .map(OrderResponse::toDto)
+                .collect(toList());
     }
 }

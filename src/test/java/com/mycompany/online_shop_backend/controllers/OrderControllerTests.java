@@ -104,7 +104,7 @@ public class OrderControllerTests {
 
     @Test
     public void createOrder() throws Exception {
-        when(orderService.save(any(Order.class))).thenReturn(order);
+        when(orderService.save(any(Order.class))).thenReturn(orderResponse);
 
         mockMvc.perform(
                 post("/api/orders")
@@ -120,7 +120,7 @@ public class OrderControllerTests {
     @Test
     public void getUserOrders() throws Exception {
         when(securityService.getUsernameFromRequest(any(HttpServletRequest.class))).thenReturn(userOne.getEmail());
-        when(orderService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(order));
+        when(orderService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(orderResponse));
 
         mockMvc.perform(
                 get("/api/users/{id}/orders", userOne.getId())

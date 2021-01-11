@@ -1,12 +1,13 @@
 package com.mycompany.online_shop_backend.service;
 
 import com.mycompany.online_shop_backend.domain.Order;
+import com.mycompany.online_shop_backend.dto.response.OrderResponse;
 
 import java.util.List;
 
 public interface OrderService {
 
-    Order save(Order order);
+    OrderResponse save(Order order);
 
-    List<Order> getOrdersByEmail(String email);
+    List<OrderResponse> getOrdersByEmail(String email);
 }
