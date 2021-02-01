@@ -27,8 +27,10 @@ public class BookController {
             @ApiResponse(code = 200, message = "Successful execution"),
             @ApiResponse(code = 500, message = "Error during execution")
     })
-    @GetMapping(path = "/api/books",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            path = "/books",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public List<BookDto> getBooks() {
         return bookService.getAllBooks().stream()
                 .map(BookDto::toDto)
@@ -41,8 +43,10 @@ public class BookController {
             @ApiResponse(code = 404, message = "Resource not found"),
             @ApiResponse(code = 500, message = "Error during execution")
     })
-    @GetMapping(path = "/api/books/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            path = "/books/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public BookDto getBookById(@PathVariable("id") long id) {
         return bookService.getById(id)
                 .map(BookDto::toDto)

@@ -22,11 +22,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_RESOURCES = new String[]{
             "/",
-            "/api/books",
-            "/api/books/{id}",
-            "/api/orders",
-            "/api/register",
-            "/api/login",
+            "/books",
+            "/books/{id}",
+            "/orders",
+            "/register",
+            "/login",
             "/webjars/**", "/v2/api-docs/**", "/configuration/ui/**", "/swagger-resources/**",
             "/configuration/security/**", "/swagger-ui.html/**", "/swagger-ui.html#/**"
     };

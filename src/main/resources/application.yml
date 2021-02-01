@@ -1,11 +1,12 @@
 application:
   security:
     token:
-      secretKey: t8$F&M?ytmp%bsdz$\JCB+@C2
+      secret-key: t8$F&M?ytmp%bsdz$\JCB+@C2
       expiration: 3600000 # 1 hour
 
 server:
   port: ${SERVER_PORT:8090}
+  servlet.context-path: /api
 
 spring:
   datasource:

@@ -1,10 +1,12 @@
-security:
-  token:
-    secretKey: test-key
-    expiration: 10000 # 10 seconds
+application:
+  security:
+    token:
+      secret-key: test-key
+      expiration: 10000 # 10 seconds
 
 server:
   port: 8090
+  servlet.context-path: /api
 
 spring:
   datasource:

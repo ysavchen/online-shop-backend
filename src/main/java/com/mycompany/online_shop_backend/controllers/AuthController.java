@@ -35,7 +35,7 @@ public class AuthController {
             @ApiResponse(code = 201, message = "Successful execution"),
             @ApiResponse(code = 500, message = "Error during execution")
     })
-    @PostMapping(path = "/api/register",
+    @PostMapping(path = "/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -57,7 +57,7 @@ public class AuthController {
             @ApiResponse(code = 404, message = "Resource not found"),
             @ApiResponse(code = 500, message = "Error during execution")
     })
-    @PostMapping(path = "/api/login",
+    @PostMapping(path = "/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public AuthResponse login(@RequestBody LoginRequest request) {

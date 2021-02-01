@@ -30,7 +30,7 @@ public class OrderController {
             @ApiResponse(code = 500, message = "Error during execution")
     })
     @PostMapping(
-            path = "/api/orders",
+            path = "/orders",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -47,7 +47,7 @@ public class OrderController {
             @ApiResponse(code = 500, message = "Error during execution")
     })
     @GetMapping(
-            path = "/api/users/{id}/orders",
+            path = "/users/{id}/orders",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<OrderResponse> getUserOrders(HttpServletRequest request) {
