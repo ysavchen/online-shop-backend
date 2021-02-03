@@ -26,11 +26,10 @@ public class OrderController {
     @ApiOperation("Creates an order")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Successful execution"),
-            @ApiResponse(code = 401, message = "Invalid authentication"),
-            @ApiResponse(code = 500, message = "Error during execution")
+            @ApiResponse(code = 401, message = "Invalid authentication")
     })
     @PostMapping(
-            path = "/orders",
+            path = "/v1/orders",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -43,11 +42,10 @@ public class OrderController {
     @ApiOperation("Gets orders for an authenticated user")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful execution"),
-            @ApiResponse(code = 401, message = "Invalid authentication"),
-            @ApiResponse(code = 500, message = "Error during execution")
+            @ApiResponse(code = 401, message = "Invalid authentication")
     })
     @GetMapping(
-            path = "/users/{id}/orders",
+            path = "/v1/users/{id}/orders",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<OrderResponse> getUserOrders(HttpServletRequest request) {

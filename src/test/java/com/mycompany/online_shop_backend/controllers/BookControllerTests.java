@@ -60,7 +60,7 @@ public class BookControllerTests {
     @Test
     public void getBooks() throws Exception {
         when(bookService.getAllBooks()).thenReturn(books);
-        mockMvc.perform(get("/api/books"))
+        mockMvc.perform(get("/v1/books"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookDtos)));
     }
@@ -68,7 +68,7 @@ public class BookControllerTests {
     @Test
     public void getBookById() throws Exception {
         when(bookService.getById(bookOne.getId())).thenReturn(Optional.of(bookOne));
-        mockMvc.perform(get("/api/books/{id}", bookOneDto.getId()))
+        mockMvc.perform(get("/v1/books/{id}", bookOneDto.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(gson.toJson(bookOneDto)));
     }
@@ -76,7 +76,7 @@ public class BookControllerTests {
     @Test
     public void getBookByIdNegative() throws Exception {
         when(bookService.getById(NON_EXISTING_ID)).thenReturn(Optional.empty());
-        mockMvc.perform(get("/api/books/{id}", NON_EXISTING_ID))
+        mockMvc.perform(get("/v1/books/{id}", NON_EXISTING_ID))
                 .andExpect(status().isNotFound());
     }
 }

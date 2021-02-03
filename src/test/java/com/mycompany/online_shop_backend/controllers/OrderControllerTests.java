@@ -107,7 +107,7 @@ public class OrderControllerTests {
         when(orderService.save(any(Order.class))).thenReturn(orderResponse);
 
         mockMvc.perform(
-                post("/api/orders")
+                post("/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(gson.toJson(orderRequest)))
@@ -123,7 +123,7 @@ public class OrderControllerTests {
         when(orderService.getOrdersByEmail(userOne.getEmail())).thenReturn(List.of(orderResponse));
 
         mockMvc.perform(
-                get("/api/users/{id}/orders", userOne.getId())
+                get("/v1/users/{id}/orders", userOne.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

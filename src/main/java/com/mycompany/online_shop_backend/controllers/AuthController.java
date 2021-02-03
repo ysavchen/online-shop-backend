@@ -32,10 +32,9 @@ public class AuthController {
 
     @ApiOperation("Registers a user")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Successful execution"),
-            @ApiResponse(code = 500, message = "Error during execution")
+            @ApiResponse(code = 201, message = "Successful registration")
     })
-    @PostMapping(path = "/register",
+    @PostMapping(path = "/v1/register",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,11 +52,10 @@ public class AuthController {
 
     @ApiOperation("Logs in a user")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful execution"),
-            @ApiResponse(code = 404, message = "Resource not found"),
-            @ApiResponse(code = 500, message = "Error during execution")
+            @ApiResponse(code = 200, message = "Successful login"),
+            @ApiResponse(code = 404, message = "Resource not found")
     })
-    @PostMapping(path = "/login",
+    @PostMapping(path = "/v1/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public AuthResponse login(@RequestBody LoginRequest request) {

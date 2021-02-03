@@ -24,11 +24,10 @@ public class BookController {
 
     @ApiOperation("Gets all books")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful execution"),
-            @ApiResponse(code = 500, message = "Error during execution")
+            @ApiResponse(code = 200, message = "Successful execution")
     })
     @GetMapping(
-            path = "/books",
+            path = "/v1/books",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<BookDto> getBooks() {
@@ -39,12 +38,11 @@ public class BookController {
 
     @ApiOperation("Gets a book with id")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful execution"),
-            @ApiResponse(code = 404, message = "Resource not found"),
-            @ApiResponse(code = 500, message = "Error during execution")
+            @ApiResponse(code = 200, message = "Book is found"),
+            @ApiResponse(code = 404, message = "Book is not found")
     })
     @GetMapping(
-            path = "/books/{id}",
+            path = "/v1/books/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public BookDto getBookById(@PathVariable("id") long id) {
