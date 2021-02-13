@@ -12,7 +12,7 @@ import com.mycompany.online_shop_backend.security.UserDetailsServiceImpl;
 import com.mycompany.online_shop_backend.service.OrderService;
 import com.mycompany.online_shop_backend.service.UserService;
 import com.mycompany.online_shop_backend.service.security.SecurityService;
-import com.mycompany.online_shop_backend.service.security.TokenServiceImpl;
+import com.mycompany.online_shop_backend.service.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(OrderController.class)
 @Import({TokenAuthenticationFilter.class,
         TokenProperties.class,
-        TokenServiceImpl.class,
+        TokenService.class,
         SecurityConfiguration.class,
         UserDetailsServiceImpl.class})
 public class OrderControllerTests {

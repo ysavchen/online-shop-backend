@@ -5,7 +5,7 @@ import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repositories.BookRepository;
 import com.mycompany.online_shop_backend.repositories.OrderBookRepository;
 import com.mycompany.online_shop_backend.repositories.OrderRepository;
-import com.mycompany.online_shop_backend.service.OrderServiceImpl;
+import com.mycompany.online_shop_backend.service.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +22,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@Import(OrderServiceImpl.class)
+@Import(OrderService.class)
 @ExtendWith(SpringExtension.class)
-public class OrderServiceImplTests {
+public class OrderServiceTests {
 
     private final Author author = new Author(1, "Author One");
     private final Book book = new Book(1, "Book One", "Description One", author, "/imageOne", 22.95);
@@ -49,7 +49,7 @@ public class OrderServiceImplTests {
     private BookRepository bookRepository;
 
     @Autowired
-    private OrderServiceImpl orderService;
+    private OrderService orderService;
 
     @BeforeEach
     void setup() {

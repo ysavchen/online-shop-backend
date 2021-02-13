@@ -1,13 +1,26 @@
 package com.mycompany.online_shop_backend.service;
 
 import com.mycompany.online_shop_backend.domain.User;
+import com.mycompany.online_shop_backend.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-public interface UserService {
+@Service
+@RequiredArgsConstructor
+public class UserService {
 
-    User save(User order);
+    private final UserRepository userRepository;
 
-    Optional<User> findByEmail(String email);
+    @Transactional
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 
+    @Transactional(readOnly = true)
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

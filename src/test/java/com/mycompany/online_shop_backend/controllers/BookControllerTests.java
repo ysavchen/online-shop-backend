@@ -10,7 +10,7 @@ import com.mycompany.online_shop_backend.security.TokenProperties;
 import com.mycompany.online_shop_backend.security.UserDetailsServiceImpl;
 import com.mycompany.online_shop_backend.service.BookService;
 import com.mycompany.online_shop_backend.service.UserService;
-import com.mycompany.online_shop_backend.service.security.TokenServiceImpl;
+import com.mycompany.online_shop_backend.service.security.TokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BookController.class)
 @Import({TokenAuthenticationFilter.class,
         TokenProperties.class,
-        TokenServiceImpl.class,
+        TokenService.class,
         SecurityConfiguration.class,
         UserDetailsServiceImpl.class})
 public class BookControllerTests {
