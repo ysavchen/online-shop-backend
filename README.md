@@ -2,7 +2,7 @@
 
 Demo application for experiments
 
-#Setting up development environment
+# Setting up development environment
 Run Postgres in Docker
 ```
 docker run --rm -d \
