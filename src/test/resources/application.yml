@@ -10,12 +10,19 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test_db
-    driver-class-name: org.h2.Driver
-    initialization-mode: always
-    data: classpath:/test-data.sql
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
 
   jpa:
     generate-ddl: false
     hibernate:
       ddl-auto: validate
+
+  test:
+    database:
+      replace: none
+
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-test.xml

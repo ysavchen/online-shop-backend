@@ -10,13 +10,17 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:app_db
-    driver-class-name: org.h2.Driver
-    initialization-mode: always
-    data: classpath:/data.sql
+    url: jdbc:p6spy:postgresql://localhost:5432/app_db
+    username: app_user
+    password: app_password
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 
   jpa:
     generate-ddl: false
     hibernate:
       ddl-auto: validate
     open-in-view: false
+
+  liquibase:
+    change-log: classpath:db/changelog/changelog-prod.xml
+

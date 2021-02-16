@@ -1,5 +1,6 @@
 package com.mycompany.online_shop_backend.repositories;
 
+import com.mycompany.online_shop_backend.AbstractRepositoryTest;
 import com.mycompany.online_shop_backend.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class OrderBookRepositoryTests {
+public class OrderBookRepositoryTests extends AbstractRepositoryTest {
 
     private final Author author = new Author(1, "Author One");
     private final Book book = new Book(1, "Book One", "Description One", author, "/imageOne", 22.95);

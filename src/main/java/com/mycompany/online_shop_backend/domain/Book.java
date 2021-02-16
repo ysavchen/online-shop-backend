@@ -26,8 +26,7 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Lob
-    @Column(name = "description", columnDefinition = "CLOB", nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
