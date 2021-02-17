@@ -1,6 +1,8 @@
 package com.mycompany.online_shop_backend.service.db;
 
 import com.mycompany.online_shop_backend.domain.*;
+import com.mycompany.online_shop_backend.dto.BookDto;
+import com.mycompany.online_shop_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repositories.BookRepository;
 import com.mycompany.online_shop_backend.repositories.OrderBookRepository;
@@ -16,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -26,8 +29,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 public class OrderServiceTests {
 
-    private final Author author = new Author(1, "Author One");
-    private final Book book = new Book(1, "Book One", "Description One", author, "/imageOne", 22.95);
+    private final Author author = new Author(1L, "Author One");
+    private final Book book = new Book(
+            1L,
+            "Book One",
+            "Description One",
+            author,
+            "/imageOne",
+            22.95
+    );
     private final Order order = new Order(
             1L,
             "Name One Surname One",
@@ -38,6 +48,14 @@ public class OrderServiceTests {
             new HashSet<>()
     );
     private final OrderBook orderBook = new OrderBook(order, book);
+    private final OrderRequest orderRequest = new OrderRequest(
+            order.getAddresseeName(),
+            order.getAddress().getValue(),
+            order.getPhone().getValue(),
+            order.getEmail(),
+            List.of(BookDto.toDto(book))
+    );
+
 
     @MockBean
     private OrderRepository orderRepository;
@@ -58,22 +76,22 @@ public class OrderServiceTests {
 
     @Test
     public void saveOrder() {
-        when(orderRepository.save(order)).thenReturn(order);
+        when(orderRepository.save(any(Order.class))).thenReturn(order);
         when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-        doNothing().when(orderBookRepository).saveOrderBook(orderBook);
+        doNothing().when(orderBookRepository).saveOrderBook(any(OrderBook.class));
 
-        orderService.save(order);
-        verify(orderRepository, times(1)).save(order);
-        verify(orderBookRepository, times(1)).saveOrderBook(orderBook);
+        orderService.save(orderRequest);
+        verify(orderRepository, times(1)).save(any(Order.class));
+        verify(orderBookRepository, times(1)).saveOrderBook(any(OrderBook.class));
     }
 
     @Test
     public void saveOrderWithNonExistingBook() {
-        when(orderRepository.save(order)).thenReturn(order);
+        when(orderRepository.save(any(Order.class))).thenReturn(order);
         when(bookRepository.findById(book.getId())).thenThrow(new EntityNotFoundException("not found"));
 
-        assertThrows(EntityNotFoundException.class, () -> orderService.save(order));
-        verify(orderRepository, times(1)).save(order);
-        verify(orderBookRepository, never()).saveOrderBook(orderBook);
+        assertThrows(EntityNotFoundException.class, () -> orderService.save(orderRequest));
+        verify(orderRepository, times(1)).save(any(Order.class));
+        verify(orderBookRepository, never()).saveOrderBook(any(OrderBook.class));
     }
 }

@@ -1,6 +1,5 @@
 package com.mycompany.online_shop_backend.controllers;
 
-import com.mycompany.online_shop_backend.domain.Order;
 import com.mycompany.online_shop_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_backend.dto.response.OrderResponse;
 import com.mycompany.online_shop_backend.service.OrderService;
@@ -35,8 +34,7 @@ public class OrderController {
     )
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse createOrder(@RequestBody OrderRequest request) {
-        Order order = OrderRequest.toEntity(request);
-        return orderService.save(order);
+        return orderService.save(request);
     }
 
     @ApiOperation("Gets orders for an authenticated user")

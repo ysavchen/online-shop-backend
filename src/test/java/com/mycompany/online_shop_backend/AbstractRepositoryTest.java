@@ -4,9 +4,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 public abstract class AbstractRepositoryTest {
 
-    private static final PostgreSQLContainer<PostgresContainer> POSTGRE_SQL_CONTAINER = PostgresContainer.getInstance();
+    private static final PostgreSQLContainer<PostgresContainer> POSTGRES_CONTAINER = PostgresContainer.getInstance();
 
     static {
-        POSTGRE_SQL_CONTAINER.start();
+        POSTGRES_CONTAINER.start();
     }
 }

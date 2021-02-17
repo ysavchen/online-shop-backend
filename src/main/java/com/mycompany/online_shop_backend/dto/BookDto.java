@@ -30,7 +30,7 @@ public class BookDto {
         return new Book(
                 dto.id, dto.title,
                 dto.description,
-                new Author(0, dto.author),
+                new Author(0L, dto.author),
                 dto.image,
                 dto.price
         );

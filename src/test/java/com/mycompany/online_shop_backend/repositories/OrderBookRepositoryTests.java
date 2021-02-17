@@ -18,7 +18,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OrderBookRepositoryTests extends AbstractRepositoryTest {
 
     private final Author author = new Author(1, "Author One");
-    private final Book book = new Book(1, "Book One", "Description One", author, "/imageOne", 22.95);
+    private final Book book = new Book(
+            1L,
+            "Book One",
+            "Description One",
+            author,
+            "/imageOne",
+            22.95
+    );
     private final Order order = new Order(
             100L,
             "Test Addressee",

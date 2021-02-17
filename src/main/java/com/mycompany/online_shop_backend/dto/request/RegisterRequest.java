@@ -16,6 +16,6 @@ public class RegisterRequest {
     private String password;
 
     public static User toUserEntity(RegisterRequest dto) {
-        return new User(0, dto.firstName, dto.lastName, dto.email, dto.password);
+        return new User(0L, dto.firstName, dto.lastName, dto.email, dto.password);
     }
 }

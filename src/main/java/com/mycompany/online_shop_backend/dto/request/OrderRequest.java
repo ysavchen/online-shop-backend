@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderRequest {
 
-    private long id;
     private String name;
     private String address;
     private String phone;
@@ -24,10 +23,10 @@ public class OrderRequest {
 
     public static Order toEntity(OrderRequest dto) {
         Order order = new Order();
-        order.setId(dto.id)
+        order.setId(0L)
                 .setAddresseeName(dto.getName())
-                .setAddress(new Address(0, dto.getAddress()))
-                .setPhone(new Phone(0, dto.getPhone()))
+                .setAddress(new Address(0L, dto.getAddress()))
+                .setPhone(new Phone(0L, dto.getPhone()))
                 .setEmail(dto.getEmail());
 
         dto.books.stream()

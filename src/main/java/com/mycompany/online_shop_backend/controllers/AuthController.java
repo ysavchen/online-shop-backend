@@ -1,11 +1,9 @@
 package com.mycompany.online_shop_backend.controllers;
 
-import com.mycompany.online_shop_backend.domain.User;
+import com.mycompany.online_shop_backend.dto.UserDto;
 import com.mycompany.online_shop_backend.dto.request.LoginRequest;
 import com.mycompany.online_shop_backend.dto.request.RegisterRequest;
 import com.mycompany.online_shop_backend.dto.response.AuthResponse;
-import com.mycompany.online_shop_backend.dto.response.UserResponse;
-import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.service.UserService;
 import com.mycompany.online_shop_backend.service.security.SecurityService;
 import com.mycompany.online_shop_backend.service.security.TokenService;
@@ -40,14 +38,12 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public AuthResponse register(@RequestBody RegisterRequest request) {
         logger.info("Register user with email {}", request.getEmail());
-        User user = RegisterRequest.toUserEntity(request);
 
-        user.setPassword(securityService.encodePassword(user.getPassword()));
-        UserResponse userResponse = UserResponse.toDto(userService.save(user));
-        String token = tokenService.generateToken(userResponse.getEmail());
+        UserDto userDto = userService.register(request);
+        String token = tokenService.generateToken(userDto.getEmail());
         long tokenExpiration = tokenService.getTokenExpiration();
 
-        return new AuthResponse(token, tokenExpiration, userResponse);
+        return new AuthResponse(token, tokenExpiration, userDto);
     }
 
     @ApiOperation("Logs in a user")
@@ -62,12 +58,10 @@ public class AuthController {
         logger.info("Login with email {}", request.getEmail());
         securityService.authenticate(request.getEmail(), request.getPassword());
 
-        UserResponse userResponse = userService.findByEmail(request.getEmail())
-                .map(UserResponse::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("User with email = " + request.getEmail() + " is not found"));
-        String token = tokenService.generateToken(userResponse.getEmail());
+        UserDto userDto = userService.findByEmail(request.getEmail());
+        String token = tokenService.generateToken(userDto.getEmail());
         long tokenExpiration = tokenService.getTokenExpiration();
 
-        return new AuthResponse(token, tokenExpiration, userResponse);
+        return new AuthResponse(token, tokenExpiration, userDto);
     }
 }

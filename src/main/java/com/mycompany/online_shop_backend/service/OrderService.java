@@ -1,6 +1,7 @@
 package com.mycompany.online_shop_backend.service;
 
 import com.mycompany.online_shop_backend.domain.Order;
+import com.mycompany.online_shop_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_backend.dto.response.OrderResponse;
 import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.repositories.BookRepository;
@@ -25,8 +26,10 @@ public class OrderService {
     private final BookRepository bookRepository;
 
     @Transactional
-    public OrderResponse save(Order order) {
-        Order savedOrder = orderRepository.save(order);
+    public OrderResponse save(OrderRequest request) {
+        Order order = OrderRequest.toEntity(request);
+        Order saved = orderRepository.save(order);
+
         order.getOrderBooks().forEach(orderBook -> {
             orderBook.setOrder(order);
             long bookId = orderBook.getBook().getId();
@@ -40,7 +43,8 @@ public class OrderService {
                     }
             );
         });
-        return OrderResponse.toDto(savedOrder);
+
+        return OrderResponse.toDto(saved);
     }
 
     @Transactional(readOnly = true)

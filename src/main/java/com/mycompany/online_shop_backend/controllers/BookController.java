@@ -1,7 +1,6 @@
 package com.mycompany.online_shop_backend.controllers;
 
 import com.mycompany.online_shop_backend.dto.BookDto;
-import com.mycompany.online_shop_backend.exceptions.EntityNotFoundException;
 import com.mycompany.online_shop_backend.service.BookService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,9 +28,7 @@ public class BookController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<BookDto> getBooks() {
-        return bookService.getAllBooks().stream()
-                .map(BookDto::toDto)
-                .collect(toList());
+        return bookService.getAllBooks();
     }
 
     @ApiOperation("Gets a book with id")
@@ -46,8 +41,6 @@ public class BookController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public BookDto getBookById(@PathVariable("id") long id) {
-        return bookService.getById(id)
-                .map(BookDto::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id = " + id + " is not found"));
+        return bookService.getById(id);
     }
 }

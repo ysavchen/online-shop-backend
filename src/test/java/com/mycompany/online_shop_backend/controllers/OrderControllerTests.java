@@ -5,12 +5,12 @@ import com.mycompany.online_shop_backend.domain.*;
 import com.mycompany.online_shop_backend.dto.BookDto;
 import com.mycompany.online_shop_backend.dto.request.OrderRequest;
 import com.mycompany.online_shop_backend.dto.response.OrderResponse;
+import com.mycompany.online_shop_backend.repositories.UserRepository;
 import com.mycompany.online_shop_backend.security.SecurityConfiguration;
 import com.mycompany.online_shop_backend.security.TokenAuthenticationFilter;
 import com.mycompany.online_shop_backend.security.TokenProperties;
 import com.mycompany.online_shop_backend.security.UserDetailsServiceImpl;
 import com.mycompany.online_shop_backend.service.OrderService;
-import com.mycompany.online_shop_backend.service.UserService;
 import com.mycompany.online_shop_backend.service.security.SecurityService;
 import com.mycompany.online_shop_backend.service.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,14 +42,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         TokenProperties.class,
         TokenService.class,
         SecurityConfiguration.class,
-        UserDetailsServiceImpl.class})
+        UserDetailsServiceImpl.class,
+        UserRepository.class})
 public class OrderControllerTests {
-    private final User userOne = new User(1, "Name One", "Surname One", "userOne@test.com", "Encoded Start01#");
-    private final Author authorOne = new Author(1, "Author One");
-    private final Author authorTwo = new Author(2, "Author Two");
+    private final User userOne = new User(
+            1L,
+            "Name One",
+            "Surname One",
+            "userOne@test.com",
+            "Encoded Start01#"
+    );
+    private final Author authorOne = new Author(1L, "Author One");
+    private final Author authorTwo = new Author(2L, "Author Two");
 
-    private final Book bookOne = new Book(1, "Book One", "Description One", authorOne, "/imageOne", 22.95);
-    private final Book bookTwo = new Book(2, "Book Two", "Description Two", authorTwo, "/imageTwo", 46.00);
+    private final Book bookOne = new Book(
+            1L,
+            "Book One",
+            "Description One",
+            authorOne,
+            "/imageOne",
+            22.95
+    );
+    private final Book bookTwo = new Book(
+            2L,
+            "Book Two",
+            "Description Two",
+            authorTwo,
+            "/imageTwo",
+            46.00
+    );
     private final BookDto bookOneDto = BookDto.toDto(bookOne);
     private final BookDto bookTwoDto = BookDto.toDto(bookTwo);
     private final List<BookDto> bookDtos = List.of(bookOneDto, bookTwoDto);
@@ -64,7 +85,6 @@ public class OrderControllerTests {
             new HashSet<>()
     );
     private final OrderRequest orderRequest = new OrderRequest(
-            0L,
             userOne.getFirstName() + " " + userOne.getLastName(),
             "Address, 1",
             "+1111 1111",
@@ -92,7 +112,7 @@ public class OrderControllerTests {
     private OrderService orderService;
 
     @MockBean
-    private UserService userService;
+    private UserRepository userRepository;
 
     @MockBean
     private SecurityService securityService;
@@ -104,7 +124,7 @@ public class OrderControllerTests {
 
     @Test
     public void createOrder() throws Exception {
-        when(orderService.save(any(Order.class))).thenReturn(orderResponse);
+        when(orderService.save(any(OrderRequest.class))).thenReturn(orderResponse);
 
         mockMvc.perform(
                 post("/v1/orders")
