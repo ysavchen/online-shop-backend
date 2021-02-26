@@ -7,7 +7,7 @@ Run Postgres in Docker
 ```
 docker run --rm -d \
     --name online_shop_db \
-    -e POSTGRES_DB=app_db
+    -e POSTGRES_DB=app_db \
     -e POSTGRES_USER=app_user \
     -e POSTGRES_PASSWORD=app_password \
     -v online_shop_data:/var/lib/postgresql/data \
